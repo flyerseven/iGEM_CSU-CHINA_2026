@@ -1,0 +1,28 @@
+/* BRIDGE design tokens — single source of truth for the 16-color palette */
+:root{
+  --clinical-white:#F8FCFF;
+  --cell-mist:#AEE8E4;
+  --data-cyan:#DDF2FF;
+  --info-blue:#77A0BC;
+  --bridge-navy:#2D5A7F;
+  --deep-sea:#234256;
+  --ink:#17324A;
+  --aqua-cyan:#53DBD3;
+  --deep-teal:#17B7AE;
+  --soft-lavender:#C3B7FF;
+  --deep-purple:#6E7BEB;
+  --signal-coral:#FF8A7A;
+  --research-amber:#F4C76B;
+  --font-en:'Space Grotesk',sans-serif;
+  --font-cn:'Noto Sans SC',sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--font-en),var(--font-cn);
+  background:var(--clinical-white);
+  color:var(--ink);
+  overflow-x:hidden;
+  cursor:default;
+}
+::selection{background:var(--aqua-cyan);color:var(--deep-sea)}

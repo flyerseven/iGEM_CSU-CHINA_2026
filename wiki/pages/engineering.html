@@ -1,0 +1,76 @@
+{% extends "layout.html" %}
+
+{% block title %}Engineering — BRIDGE · iGEM 2026{% endblock %}
+{% block signal %}connected{% endblock %}
+
+{% block page_content %}
+<header class="page-hero">
+  <span class="hero-tag">ENGINEERING</span>
+  <h1>Build. Test. Learn.<br><span class="grad">Cross again.</span></h1>
+  <p class="lede">Four core plasmids, one experimental pipeline: from SynNotch membrane expression to BCAN-gated cleavage, BDNF secretion, and neuroprotective function in injured-neuron co-culture.</p>
+</header>
+
+<div class="article-wrap">
+  <article class="article-body">
+
+    <h2 id="construct">The Constructs</h2>
+    <p>The circuit is built from <strong>four core plasmids</strong>: the <strong>a-BCAN-SynNotch</strong> receptor, and the <strong>5×UAS</strong> reporter/payload family — <strong>Luc</strong> (luciferase readout), <strong>GFP</strong> (fluorescent readout), and <strong>BDNF</strong> (the therapeutic payload). Reporters and payload share the same 5×UAS gate, so what we measure with Luc/GFP predicts what BDNF will do.</p>
+
+    <h2 id="pipeline">The Experimental Pipeline</h2>
+    <p>Five stages, each answering one question the circuit must pass before the next is worth running.</p>
+
+    <h3 id="stage-expression">Stage 1 · SynNotch Membrane Expression</h3>
+    <p>Does the receptor reach the membrane? Verified by <strong>Western blot and immunofluorescence</strong> for SynNotch membrane localization. No surface receptor, no sensing.</p>
+
+    <h3 id="stage-activation">Stage 2 · Pathway Activation</h3>
+    <p>Does BCAN actually throw the switch? Tested whether BCAN binding induces <strong>SynNotch cleavage and GAL4-VP64 release</strong> — the Boolean gate at the heart of BRIDGE.</p>
+
+    <h3 id="stage-secretion">Stage 3 · BDNF Secretion</h3>
+    <p>Does the gate produce the payload? BCAN-induced BDNF secretion quantified by <strong>ELISA</strong>.</p>
+
+    <h3 id="stage-function">Stage 4 · Neuroprotective Function</h3>
+    <p>Does the secreted BDNF actually help? Validated by <strong>co-culture with injured neurons</strong>, measuring the neuroprotective effect of circuit-derived BDNF.</p>
+
+    <h3 id="stage-iteration">Stage 5 · Iterate</h3>
+    <p>Each failure routes back through the <strong>Design–Build–Test–Learn</strong> loop: receptor variants, promoter strength, and payload dosing are re-tuned with guidance from the <a href="{{ url_for('pages', page='model') }}" style="color:var(--deep-teal)">Model</a>.</p>
+
+    <blockquote>The 5×UAS reporters are the circuit's own debug console — Luc and GFP tell us what BDNF would have done, before we ever ask it to.</blockquote>
+
+  </article>
+
+  <aside class="outline">
+    <div class="outline-title">OUTLINE</div>
+    <a href="#construct">The Constructs</a>
+    <a href="#pipeline">The Experimental Pipeline</a>
+    <a href="#stage-expression" class="lvl-3">Stage 1 · Membrane Expression</a>
+    <a href="#stage-activation" class="lvl-3">Stage 2 · Pathway Activation</a>
+    <a href="#stage-secretion" class="lvl-3">Stage 3 · BDNF Secretion</a>
+    <a href="#stage-function" class="lvl-3">Stage 4 · Neuroprotection</a>
+    <a href="#stage-iteration" class="lvl-3">Stage 5 · Iterate</a>
+  </aside>
+</div>
+
+<div class="next-pages">
+  <div class="section-label">START BY THESE</div>
+  <div class="next-grid">
+    <a class="next-card" href="{{ url_for('pages', page='results') }}">
+      <div class="kicker">RESULTS</div>
+      <h3>The Data</h3>
+      <p>What the pipeline measured at each stage.</p>
+      <span class="arrow">→</span>
+    </a>
+    <a class="next-card" href="{{ url_for('pages', page='model') }}">
+      <div class="kicker">MODEL</div>
+      <h3>Predicting the Bridge</h3>
+      <p>Kinetic modeling from recognition to repair.</p>
+      <span class="arrow">→</span>
+    </a>
+    <a class="next-card" href="{{ url_for('pages', page='design') }}">
+      <div class="kicker">DESIGN</div>
+      <h3>Back to the Circuit</h3>
+      <p>Three modules, five steps, one bridge.</p>
+      <span class="arrow">→</span>
+    </a>
+  </div>
+</div>
+{% endblock %}

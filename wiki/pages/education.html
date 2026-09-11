@@ -1,0 +1,60 @@
+{% extends "layout.html" %}
+
+{% block title %}Education — BRIDGE · iGEM 2026{% endblock %}
+{% block signal %}connected{% endblock %}
+
+{% block page_content %}
+<header class="page-hero">
+  <span class="hero-tag">EDUCATION</span>
+  <h1>Teach the bridge<br><span class="grad">to the next builders.</span></h1>
+  <p class="lede">Card decks, a picture book, handbooks, and a standing community — education materials designed to be used by people who are not us.</p>
+</header>
+
+<div class="article-wrap">
+  <article class="article-body">
+
+    <h2 id="materials">The Materials</h2>
+    <p>Our education carriers: <strong>2 synthetic-biology card decks, 1 picture book, and 2 communication handbooks</strong>. Each is built to work without a presenter — a teacher, a parent, or a curious reader can pick them up cold.</p>
+
+    <h2 id="events">The Events</h2>
+    <p><strong>10+ offline science events reaching 300+ participants</strong>, paired with <strong>15+ online posts</strong> on WeChat and Xiaohongshu — event formats tested with real audiences and iterated on their feedback.</p>
+
+    <h2 id="community">The Community</h2>
+    <p><strong>Kindle</strong>, our synthetic biology interest group with <strong>80+ members</strong>, keeps the learning going between events — an audience that teaches itself and each other.</p>
+
+    <blockquote>Good education material survives the author leaving the room. That is the bar we design to.</blockquote>
+
+  </article>
+
+  <aside class="outline">
+    <div class="outline-title">OUTLINE</div>
+    <a href="#materials">The Materials</a>
+    <a href="#events">The Events</a>
+    <a href="#community">The Community</a>
+  </aside>
+</div>
+
+<div class="next-pages">
+  <div class="section-label">START BY THESE</div>
+  <div class="next-grid">
+    <a class="next-card" href="{{ url_for('pages', page='human-practices') }}">
+      <div class="kicker">HUMAN PRACTICES</div>
+      <h3>Beyond the Bench</h3>
+      <p>The conversations that shaped BRIDGE.</p>
+      <span class="arrow">→</span>
+    </a>
+    <a class="next-card" href="{{ url_for('pages', page='team') }}">
+      <div class="kicker">TEAM</div>
+      <h3>The People</h3>
+      <p>Who builds — and teaches — BRIDGE.</p>
+      <span class="arrow">→</span>
+    </a>
+    <a class="next-card" href="{{ url_for('pages', page='description') }}">
+      <div class="kicker">DESCRIPTION</div>
+      <h3>The Problem</h3>
+      <p>Why this science is worth teaching.</p>
+      <span class="arrow">→</span>
+    </a>
+  </div>
+</div>
+{% endblock %}

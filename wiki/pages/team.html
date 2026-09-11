@@ -1,0 +1,60 @@
+{% extends "layout.html" %}
+
+{% block title %}Team — BRIDGE · iGEM 2026{% endblock %}
+{% block signal %}connected{% endblock %}
+
+{% block page_content %}
+<header class="page-hero">
+  <span class="hero-tag">TEAM &amp; ATTRIBUTIONS</span>
+  <h1>The people<br><span class="grad">on the bridge.</span></h1>
+  <p class="lede">Wet lab, dry lab, human practices, and design — one team carrying BRIDGE from an idea about broken signals to a working repair circuit.</p>
+</header>
+
+<div class="article-wrap">
+  <article class="article-body">
+
+                                        <h2 id="wetlab">Wet Lab</h2>
+
+    <h2 id="drylab">Dry Lab</h2>
+    <p>Multi-scale kinetic modeling: pathway simulation from recognition to secretion, and microenvironment simulation of BDNF diffusion and dosing. <em>Member roster to be added.</em></p>
+
+    <h2 id="hp">Human Practices &amp; Education</h2>
+    <p>Offline events, online content, the Kindle community, surveys, and the education materials. <em>Member roster to be added.</em></p>
+
+    <h2 id="attributions">Attributions</h2>
+    <p>Advisors, instructors, institutions, and everyone whose work made BRIDGE possible. <em>Full attribution list to be added.</em></p>
+  </article>
+
+                    <aside class="outline">
+    <div class="outline-title">OUTLINE</div>
+    <a href="#wetlab">Wet Lab</a>
+    <a href="#drylab">Dry Lab</a>
+    <a href="#hp">Human Practices &amp; Education</a>
+    <a href="#attributions">Attributions</a>
+  </aside>
+</div>
+
+<div class="next-pages">
+  <div class="section-label">START BY THESE</div>
+  <div class="next-grid">
+    <a class="next-card" href="{{ url_for('pages', page='description') }}">
+      <div class="kicker">DESCRIPTION</div>
+      <h3>The Problem</h3>
+      <p>What brought us together.</p>
+      <span class="arrow">→</span>
+    </a>
+    <a class="next-card" href="{{ url_for('pages', page='human-practices') }}">
+      <div class="kicker">HUMAN PRACTICES</div>
+      <h3>Beyond the Bench</h3>
+      <p>The public side of our work.</p>
+      <span class="arrow">→</span>
+    </a>
+    <a class="next-card" href="{{ url_for('pages', page='engineering') }}">
+      <div class="kicker">ENGINEERING</div>
+      <h3>Build · Test · Learn</h3>
+      <p>The bench side of our work.</p>
+      <span class="arrow">→</span>
+    </a>
+  </div>
+</div>
+{% endblock %}

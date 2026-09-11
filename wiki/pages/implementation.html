@@ -1,0 +1,60 @@
+{% extends "layout.html" %}
+
+{% block title %}Implementation — BRIDGE · iGEM 2026{% endblock %}
+{% block signal %}connected{% endblock %}
+
+{% block page_content %}
+<header class="page-hero">
+  <span class="hero-tag">PROPOSED IMPLEMENTATION</span>
+  <h1>From bench<br><span class="grad">to bedside.</span></h1>
+  <p class="lede">A targeted cell-therapy platform: modified T cells cross the blood-brain barrier, sense lesion BCAN, and release BDNF locally — with swappable receptors and payloads for CNS indications beyond stroke.</p>
+</header>
+
+<div class="article-wrap">
+  <article class="article-body">
+
+    <h2 id="patient">The Patient Journey</h2>
+    <p>The intended end users are <strong>cerebral infarction patients in postoperative rehabilitation</strong> — the population whose recovery outcomes remain extremely poor today. Autologous T cells would be engineered ex vivo with the BRIDGE circuit and reinfused, homing to the lesion on their own.</p>
+
+    <h2 id="technical">The Technical Path</h2>
+    <p><strong>Modified T cells cross the BBB, sense lesion BCAN, and release BDNF locally to reduce off-target toxicity.</strong> The translational steps ahead: in-vivo validation of homing and gating, dosing informed by the <a href="{{ url_for('pages', page='model') }}" style="color:var(--deep-teal)">microenvironment model</a>, and GMP-compatible cell manufacturing.</p>
+
+    <h2 id="platform">Beyond One Disease</h2>
+    <p><strong>Swappable receptors and payloads make the platform adaptable across CNS disease contexts.</strong> A different injury marker swaps in at the sensor; a different therapeutic factor swaps in behind the 5×UAS gate. Stroke is the first address, not the only one.</p>
+
+    <blockquote>BRIDGE is built like infrastructure: the first span crosses to stroke recovery, the road runs on from there.</blockquote>
+
+  </article>
+
+  <aside class="outline">
+    <div class="outline-title">OUTLINE</div>
+    <a href="#patient">The Patient Journey</a>
+    <a href="#technical">The Technical Path</a>
+    <a href="#platform">Beyond One Disease</a>
+  </aside>
+</div>
+
+<div class="next-pages">
+  <div class="section-label">START BY THESE</div>
+  <div class="next-grid">
+    <a class="next-card" href="{{ url_for('pages', page='safety') }}">
+      <div class="kicker">SAFETY</div>
+      <h3>Working Safely</h3>
+      <p>Containment and responsible design.</p>
+      <span class="arrow">→</span>
+    </a>
+    <a class="next-card" href="{{ url_for('pages', page='model') }}">
+      <div class="kicker">MODEL</div>
+      <h3>Predicting the Bridge</h3>
+      <p>The dosing math behind implementation.</p>
+      <span class="arrow">→</span>
+    </a>
+    <a class="next-card" href="{{ url_for('pages', page='description') }}">
+      <div class="kicker">DESCRIPTION</div>
+      <h3>The Problem</h3>
+      <p>The clinical need we answer.</p>
+      <span class="arrow">→</span>
+    </a>
+  </div>
+</div>
+{% endblock %}

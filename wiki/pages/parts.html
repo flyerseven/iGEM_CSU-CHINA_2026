@@ -1,0 +1,64 @@
+{% extends "layout.html" %}
+
+{% block title %}Parts — BRIDGE · iGEM 2026{% endblock %}
+{% block signal %}connected{% endblock %}
+
+{% block page_content %}
+<header class="page-hero">
+  <span class="hero-tag">PARTS</span>
+  <h1>The bricks<br><span class="grad">of the bridge.</span></h1>
+  <p class="lede">Four core constructs — one sensor, one gate, three readouts. Every part is documented for the registry and for the next team that wants to reroute the circuit.</p>
+</header>
+
+<div class="article-wrap">
+  <article class="article-body">
+
+    <h2 id="sensor">a-BCAN-SynNotch</h2>
+    <p>The sensor part: a synthetic Notch receptor whose extracellular domain recognizes <strong>BCAN</strong>. Ligand binding drives S2/S3 cleavage and releases the intracellular <strong>GAL4-VP64</strong> transcription factor.</p>
+
+    <h2 id="gate">5×UAS Response Element</h2>
+    <p>The gate: a <strong>5×UAS</strong> promoter activated only by nuclear GAL4-VP64. Downstream of the gate sit three interchangeable cassettes sharing identical gating logic.</p>
+
+    <h2 id="payloads">The Payload Cassettes</h2>
+    <ul>
+      <li><strong>5×UAS-Luc</strong> — luciferase reporter for quantitative gating measurements.</li>
+      <li><strong>5×UAS-GFP</strong> — fluorescent reporter for spatial/single-cell readout.</li>
+      <li><strong>5×UAS-BDNF</strong> — the therapeutic payload: brain-derived neurotrophic factor, released only where BCAN says so.</li>
+    </ul>
+
+    <blockquote>Sensor and payload are independent parts — swap either, keep the gate. That is what makes BRIDGE a platform.</blockquote>
+
+  </article>
+
+  <aside class="outline">
+    <div class="outline-title">OUTLINE</div>
+    <a href="#sensor">a-BCAN-SynNotch</a>
+    <a href="#gate">5×UAS Response Element</a>
+    <a href="#payloads">The Payload Cassettes</a>
+  </aside>
+</div>
+
+<div class="next-pages">
+  <div class="section-label">START BY THESE</div>
+  <div class="next-grid">
+    <a class="next-card" href="{{ url_for('pages', page='design') }}">
+      <div class="kicker">DESIGN</div>
+      <h3>The SynNotch Circuit</h3>
+      <p>How the parts assemble into the circuit.</p>
+      <span class="arrow">→</span>
+    </a>
+    <a class="next-card" href="{{ url_for('pages', page='engineering') }}">
+      <div class="kicker">ENGINEERING</div>
+      <h3>Build · Test · Learn</h3>
+      <p>How each part was validated.</p>
+      <span class="arrow">→</span>
+    </a>
+    <a class="next-card" href="{{ url_for('pages', page='safety') }}">
+      <div class="kicker">SAFETY</div>
+      <h3>Working Safely</h3>
+      <p>Containment and responsible design.</p>
+      <span class="arrow">→</span>
+    </a>
+  </div>
+</div>
+{% endblock %}

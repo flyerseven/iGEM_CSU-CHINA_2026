@@ -1,0 +1,64 @@
+{% extends "layout.html" %}
+
+{% block title %}Sustainability — BRIDGE · iGEM 2026{% endblock %}
+{% block signal %}connected{% endblock %}
+
+{% block page_content %}
+<header class="page-hero">
+  <span class="hero-tag">SUSTAINABILITY</span>
+  <h1>Repair that<br><span class="grad">lasts.</span></h1>
+  <p class="lede">We evaluated BRIDGE against the UN Sustainable Development Goals — as a therapy, as an education effort, and as a way of doing science.</p>
+</header>
+
+<div class="article-wrap">
+  <article class="article-body">
+
+    <h2 id="sdg3">SDG 3 · Good Health &amp; Well-being</h2>
+    <p>BRIDGE targets the rehabilitation gap after cerebral infarction — a condition whose poor recovery outcomes affect patients and families for decades. The design itself is a sustainability argument: <strong>localized, on-demand release</strong> of BDNF at the lesion aims at therapeutic effect with lower systemic exposure, reducing the side-effect burden that caps today's treatments.</p>
+
+    <h2 id="sdg4">SDG 4 · Quality Education</h2>
+    <p>Our education work is built to outlive the season: <strong>10+ offline science events reaching 300+ participants</strong>, an open <strong>Kindle community of 80+ members</strong>, and durable materials — <strong>2 card decks, 1 picture book, 2 handbooks</strong> — that remain in circulation after we leave the room. The full program is on the <a href="{{ url_for('pages', page='education') }}" style="color:var(--deep-teal)">Education page</a>.</p>
+
+    <h2 id="sdg10">SDG 10 · Reduced Inequalities</h2>
+    <p>Cell therapies risk becoming medicine for the few. We treat accessibility as a design constraint, not an afterthought: free public materials in plain language, outreach across ages and professions, and honest public conversation — through <strong>5+ surveys</strong> — about who would be able to reach a therapy like BRIDGE. The details are on the <a href="{{ url_for('pages', page='inclusivity') }}" style="color:var(--deep-teal)">Inclusivity page</a>.</p>
+
+    <h2 id="dialogue">Stakeholder Dialogue</h2>
+    <p>This evaluation was not done at a desk. Patients, clinicians, and the public shaped it through the engagement documented on the <a href="{{ url_for('pages', page='human-practices') }}" style="color:var(--deep-teal)">Human Practices page</a> — the same stakeholders a sustainable therapy must ultimately answer to.</p>
+
+    <blockquote>The SDGs are a checklist only if you let them be. For BRIDGE they are a promise: health that reaches people, education that stays behind, and a therapy designed with inequality in view.</blockquote>
+
+  </article>
+
+  <aside class="outline">
+    <div class="outline-title">OUTLINE</div>
+    <a href="#sdg3">SDG 3 · Good Health &amp; Well-being</a>
+    <a href="#sdg4">SDG 4 · Quality Education</a>
+    <a href="#sdg10">SDG 10 · Reduced Inequalities</a>
+    <a href="#dialogue">Stakeholder Dialogue</a>
+  </aside>
+</div>
+
+<div class="next-pages">
+  <div class="section-label">START BY THESE</div>
+  <div class="next-grid">
+    <a class="next-card" href="{{ url_for('pages', page='human-practices') }}">
+      <div class="kicker">HUMAN PRACTICES</div>
+      <h3>Beyond the Bench</h3>
+      <p>The stakeholder dialogue behind this evaluation.</p>
+      <span class="arrow">→</span>
+    </a>
+    <a class="next-card" href="{{ url_for('pages', page='inclusivity') }}">
+      <div class="kicker">INCLUSIVITY</div>
+      <h3>Letting Everyone In</h3>
+      <p>Reduced inequalities, in practice.</p>
+      <span class="arrow">→</span>
+    </a>
+    <a class="next-card" href="{{ url_for('pages', page='implementation') }}">
+      <div class="kicker">IMPLEMENTATION</div>
+      <h3>Toward the Clinic</h3>
+      <p>Where the sustainable therapy would be used.</p>
+      <span class="arrow">→</span>
+    </a>
+  </div>
+</div>
+{% endblock %}

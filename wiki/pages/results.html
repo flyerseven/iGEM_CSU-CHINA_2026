@@ -1,0 +1,64 @@
+{% extends "layout.html" %}
+
+{% block title %}Results — BRIDGE · iGEM 2026{% endblock %}
+{% block signal %}connected{% endblock %}
+
+{% block page_content %}
+<header class="page-hero">
+  <span class="hero-tag">RESULTS</span>
+  <h1>Where prediction<br><span class="grad">met measurement.</span></h1>
+  <p class="lede">Each stage of the engineering pipeline reports here — membrane expression, BCAN-gated cleavage, BDNF secretion, and neuroprotective function.</p>
+</header>
+
+<div class="article-wrap">
+  <article class="article-body">
+
+    <h2 id="expression">SynNotch Membrane Expression</h2>
+    <p>Western blot and immunofluorescence verification of a-BCAN-SynNotch membrane localization. <em>Data being collected — this page updates as the pipeline reports.</em></p>
+
+    <h2 id="activation">BCAN-Gated Cleavage</h2>
+    <p>Testing whether BCAN binding induces SynNotch S2/S3 cleavage and GAL4-VP64 release, read out through the 5×UAS-Luc/GFP reporters. <em>Data being collected.</em></p>
+
+    <h2 id="secretion">BDNF Secretion</h2>
+    <p>ELISA quantification of BCAN-induced BDNF output. <em>Data being collected.</em></p>
+
+    <h2 id="function">Neuroprotective Function</h2>
+    <p>Co-culture of circuit-activated cells with injured neurons to validate the neuroprotective effect of locally delivered BDNF. <em>Data being collected.</em></p>
+
+    <blockquote class="callout-win">Every result here is produced by the pipeline on the <a href="{{ url_for('pages', page='engineering') }}" style="color:inherit">Engineering page</a> — read that first for the design of each assay.</blockquote>
+
+  </article>
+
+  <aside class="outline">
+    <div class="outline-title">OUTLINE</div>
+    <a href="#expression">Membrane Expression</a>
+    <a href="#activation">BCAN-Gated Cleavage</a>
+    <a href="#secretion">BDNF Secretion</a>
+    <a href="#function">Neuroprotective Function</a>
+  </aside>
+</div>
+
+<div class="next-pages">
+  <div class="section-label">START BY THESE</div>
+  <div class="next-grid">
+    <a class="next-card" href="{{ url_for('pages', page='engineering') }}">
+      <div class="kicker">ENGINEERING</div>
+      <h3>Build · Test · Learn</h3>
+      <p>The pipeline behind every number here.</p>
+      <span class="arrow">→</span>
+    </a>
+    <a class="next-card" href="{{ url_for('pages', page='model') }}">
+      <div class="kicker">MODEL</div>
+      <h3>Predicting the Bridge</h3>
+      <p>The predictions these results test.</p>
+      <span class="arrow">→</span>
+    </a>
+    <a class="next-card" href="{{ url_for('pages', page='design') }}">
+      <div class="kicker">DESIGN</div>
+      <h3>Back to the Circuit</h3>
+      <p>Three modules, five steps, one bridge.</p>
+      <span class="arrow">→</span>
+    </a>
+  </div>
+</div>
+{% endblock %}

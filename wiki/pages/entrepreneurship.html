@@ -1,0 +1,64 @@
+{% extends "layout.html" %}
+
+{% block title %}Entrepreneurship — BRIDGE · iGEM 2026{% endblock %}
+{% block signal %}connected{% endblock %}
+
+{% block page_content %}
+<header class="page-hero">
+  <span class="hero-tag">ENTREPRENEURSHIP</span>
+  <h1>From bench<br><span class="grad">to bedside.</span></h1>
+  <p class="lede">The case for BRIDGE as a venture: an unmet clinical need, a modular cell-therapy platform, and a stakeholder landscape mapped through Human Practices.</p>
+</header>
+
+<div class="article-wrap">
+  <article class="article-body">
+
+    <h2 id="need">The Unmet Need</h2>
+    <p>Cerebral infarction affects large numbers of patients every year, and <strong>postoperative rehabilitation outcomes remain extremely poor</strong>. Existing therapies hit the three walls documented on the <a href="{{ url_for('pages', page='description') }}" style="color:var(--deep-teal)">Description page</a>: the blood-brain barrier, off-target toxicity, and the difficulty of pinpoint delivery. A therapy that answers all three at once addresses a need no current product meets.</p>
+
+    <h2 id="product">The Product Concept</h2>
+    <p>BRIDGE is a <strong>targeted cell therapy</strong>: a patient's own T cells engineered ex vivo to sense the lesion marker BCAN through a SynNotch receptor and release the repair factor BDNF exactly at the injury. Autologous sourcing, an antigen address, and an on-demand payload align the concept with how engineered T cell products are already manufactured and regulated.</p>
+
+    <h2 id="platform-value">Platform, Not Just Product</h2>
+    <p>The commercial logic extends beyond one indication. <strong>Swappable receptors and payloads</strong> make the platform adaptable across CNS disease contexts: change the SynNotch ectodomain to reach a new lesion antigen, change the 5×UAS cargo to deliver a new factor. One validated chassis becomes a pipeline — the classic platform-company thesis.</p>
+
+    <h2 id="stakeholders">Stakeholders &amp; Next Steps</h2>
+    <p>Our understanding of customers and context comes from Human Practices: <strong>10+ offline events reaching 300+ participants</strong>, continuous online outreach, and <strong>5+ public surveys</strong> whose feedback shaped how we talk about — and think about — the therapy. Next steps on the venture side are regulatory landscaping, freedom-to-operate review, and clinician advisory input as the wet-lab data matures.</p>
+
+    <blockquote class="callout-win">This business case is exploratory by design — BRIDGE is an early-stage project, and the claims here are a map of the questions a venture would have to answer, not a finished plan.</blockquote>
+
+  </article>
+
+  <aside class="outline">
+    <div class="outline-title">OUTLINE</div>
+    <a href="#need">The Unmet Need</a>
+    <a href="#product">The Product Concept</a>
+    <a href="#platform-value">Platform, Not Just Product</a>
+    <a href="#stakeholders">Stakeholders &amp; Next Steps</a>
+  </aside>
+</div>
+
+<div class="next-pages">
+  <div class="section-label">START BY THESE</div>
+  <div class="next-grid">
+    <a class="next-card" href="{{ url_for('pages', page='implementation') }}">
+      <div class="kicker">IMPLEMENTATION</div>
+      <h3>Toward the Clinic</h3>
+      <p>How the therapy would actually reach patients.</p>
+      <span class="arrow">→</span>
+    </a>
+    <a class="next-card" href="{{ url_for('pages', page='human-practices') }}">
+      <div class="kicker">HUMAN PRACTICES</div>
+      <h3>Beyond the Bench</h3>
+      <p>The stakeholder input behind this business case.</p>
+      <span class="arrow">→</span>
+    </a>
+    <a class="next-card" href="{{ url_for('pages', page='description') }}">
+      <div class="kicker">DESCRIPTION</div>
+      <h3>The Problem</h3>
+      <p>The clinical need at the root of the venture.</p>
+      <span class="arrow">→</span>
+    </a>
+  </div>
+</div>
+{% endblock %}

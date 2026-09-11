@@ -1,0 +1,87 @@
+{% extends "layout.html" %}
+
+{% block title %}Design — BRIDGE · iGEM 2026{% endblock %}
+{% block signal %}connected{% endblock %}
+
+{% block page_content %}
+<header class="page-hero">
+  <span class="hero-tag">DESIGN</span>
+  <h1>Sense BCAN.<br><span class="grad">Switch on repair.</span></h1>
+  <p class="lede">BRIDGE is a three-module synthetic circuit in T cells: a BCAN-sensing SynNotch receptor, a cleavage-gated transcriptional switch, and a BDNF payload that activates only at the injury site.</p>
+</header>
+
+<div class="article-wrap">
+  <article class="article-body">
+
+    <h2 id="modules">Three Modules, One Circuit</h2>
+    <p>The design decomposes neural repair into three separable problems — sensing, switching, and payload delivery — each solved by one module that can be built, tested, and improved independently.</p>
+
+    <h3 id="module-receptor">Module 1 · The Receptor</h3>
+    <p>A <strong>BCAN-sensing SynNotch receptor</strong> sits on the T cell membrane. Its extracellular domain recognizes BCAN — the molecular address overexpressed at brain lesions — and converts that binding event into a mechanical signal.</p>
+
+    <h3 id="module-switch">Module 2 · The Switch</h3>
+    <p>Ligand binding triggers S2/S3 proteolytic cleavage of the SynNotch core, releasing the intracellular <strong>GAL4-VP64 transcription factor</strong>. The switch is <strong>Boolean by construction</strong>: no BCAN, no cleavage, no transcription — healthy brain never sees the payload.</p>
+
+    <h3 id="module-payload">Module 3 · The Payload</h3>
+    <p>Only at the lesion does the released transcription factor drive expression of <strong>BDNF</strong>, the brain's own repair factor. BDNF is packaged and released on site, rebuilding the repair pathway exactly where neurons were lost.</p>
+
+    <h2 id="steps">Five Steps Across the Bridge</h2>
+    <ol>
+      <li><strong>Recognition</strong> — engineered T cells cross the blood-brain barrier and patrol the lesion; BCAN binding docks the SynNotch receptor onto injured tissue.</li>
+      <li><strong>S2/S3 Cleavage</strong> — binding-induced force exposes the cleavage sites; sequential ADAM and γ-secretase cuts release the intracellular domain.</li>
+      <li><strong>Transcription ON</strong> — the freed GAL4-VP64 enters the nucleus and drives the 5×UAS cassette, switching on BDNF expression.</li>
+      <li><strong>DCV Secretion</strong> — newly made BDNF is loaded into dense-core vesicles and secreted directly at the injury microenvironment.</li>
+      <li><strong>Neuronal Repair</strong> — local BDNF supports neuron survival and rebuilds the repair pathway in the brain's native language.</li>
+    </ol>
+
+    <figure>
+      <img src="{{ url_for('static', filename='img/synnotch-pathway.png') }}" alt="SynNotch molecular pathway: BCAN binding, S2/S3 cleavage, nuclear translocation, BDNF transcription">
+      <figcaption><b>The molecular switch.</b> BCAN binding triggers S2/S3 cleavage of the SynNotch receptor, releasing the transcriptional domain that switches on BDNF expression.</figcaption>
+    </figure>
+
+    <figure>
+      <img src="{{ url_for('static', filename='img/mechanism-overview.png') }}" alt="Cell-level overview of the BRIDGE circuit from BBB crossing to neuronal repair">
+      <figcaption><b>The cellular bridge.</b> From blood-brain barrier crossing to local BDNF release — one T cell carries the whole repair circuit.</figcaption>
+    </figure>
+
+    <h2 id="platform">A Platform, Not a Single Drug</h2>
+    <p>Because receptor, switch, and payload are independent, the circuit is rewirable: swap the sensor and BRIDGE becomes an address for other injury markers; swap the payload and it delivers other therapeutic signals. One engineering platform, many clinical directions.</p>
+    <blockquote class="callout-win">The receptor is the address. The payload is the letter. The switch makes sure the letter is only opened at the right door.</blockquote>
+
+  </article>
+
+  <aside class="outline">
+    <div class="outline-title">OUTLINE</div>
+    <a href="#modules">Three Modules, One Circuit</a>
+    <a href="#module-receptor" class="lvl-3">Module 1 · The Receptor</a>
+    <a href="#module-switch" class="lvl-3">Module 2 · The Switch</a>
+    <a href="#module-payload" class="lvl-3">Module 3 · The Payload</a>
+    <a href="#steps">Five Steps Across the Bridge</a>
+    <a href="#platform">A Platform, Not a Single Drug</a>
+  </aside>
+</div>
+
+<div class="next-pages">
+  <div class="section-label">START BY THESE</div>
+  <div class="next-grid">
+    <a class="next-card" href="{{ url_for('pages', page='engineering') }}">
+      <div class="kicker">ENGINEERING</div>
+      <h3>Build · Test · Learn</h3>
+      <p>Four core plasmids and the DBTL cycles that proved the circuit works.</p>
+      <span class="arrow">→</span>
+    </a>
+    <a class="next-card" href="{{ url_for('pages', page='results') }}">
+      <div class="kicker">RESULTS</div>
+      <h3>The Data</h3>
+      <p>BCAN gating, cleavage efficiency, and BDNF output — measured.</p>
+      <span class="arrow">→</span>
+    </a>
+    <a class="next-card" href="{{ url_for('pages', page='model') }}">
+      <div class="kicker">MODEL</div>
+      <h3>Predicting the Bridge</h3>
+      <p>How modeling shaped receptor choice and payload dosing.</p>
+      <span class="arrow">→</span>
+    </a>
+  </div>
+</div>
+{% endblock %}

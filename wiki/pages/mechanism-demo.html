@@ -1,0 +1,389 @@
+{% extends "layout.html" %}
+
+{% block title %}Mechanism Demo — BRIDGE · iGEM 2026{% endblock %}
+{% block signal %}connected{% endblock %}
+
+{% block head %}
+<style>
+.demo-wrap{max-width:1200px;margin:0 auto;padding:0 6vw 5rem}
+.demo-frame{
+  position:relative;border-radius:24px;overflow:hidden;
+  background:radial-gradient(120% 130% at 30% 20%,#1B3A57 0%,var(--deep-sea) 45%,var(--ink) 100%);
+  box-shadow:0 24px 70px rgba(23,50,74,.35);
+  border:1px solid rgba(174,232,228,.14);
+}
+#mech-canvas{display:block;width:100%;height:min(72vh,640px);cursor:grab;touch-action:none}
+#mech-canvas:active{cursor:grabbing}
+.demo-hud{
+  position:absolute;left:1.6rem;bottom:1.4rem;max-width:min(46ch,70%);
+  background:rgba(23,50,74,.55);backdrop-filter:blur(8px);
+  border:1px solid rgba(174,232,228,.18);border-radius:16px;padding:1rem 1.3rem;
+  pointer-events:none;
+}
+.demo-hud .stage-name{font-weight:700;letter-spacing:.12em;color:var(--aqua-cyan);font-size:.95rem}
+.demo-hud .stage-desc{margin-top:.45rem;color:var(--data-cyan);font-size:.85rem;line-height:1.75;font-weight:300}
+.demo-controls{
+  display:flex;align-items:center;justify-content:center;gap:1.4rem;margin-top:1.6rem;
+}
+.demo-controls button{
+  width:44px;height:44px;border-radius:50%;border:1px solid rgba(45,90,127,.25);
+  background:#fff;color:var(--bridge-navy);font-size:1.05rem;cursor:pointer;
+  transition:all .25s;box-shadow:0 4px 14px rgba(35,66,86,.08);
+}
+.demo-controls button:hover{background:var(--bridge-navy);color:#fff;transform:translateY(-2px)}
+.dots{display:flex;gap:.6rem}
+.dot{
+  width:12px;height:12px;border-radius:50%;border:2px solid var(--info-blue);
+  background:transparent;cursor:pointer;padding:0;transition:all .3s;
+}
+.dot.on{background:var(--deep-teal);border-color:var(--deep-teal);transform:scale(1.25)}
+.dot:hover{border-color:var(--deep-teal)}
+.demo-note{text-align:center;color:var(--info-blue);font-size:.8rem;letter-spacing:.15em;margin-top:1rem}
+@media(max-width:700px){.demo-hud{left:.9rem;right:.9rem;bottom:.9rem;max-width:none}}
+</style>
+{% endblock %}
+
+{% block page_content %}
+<header class="page-hero">
+  <span class="hero-tag">MECHANISM DEMO</span>
+  <h1>The circuit,<br><span class="grad">in motion.</span></h1>
+  <p class="lede">A low-poly 3D walkthrough of the BRIDGE mechanism — BCAN recognition, SynNotch cleavage, 5×UAS-driven BDNF expression, and local repair. Drag to orbit.</p>
+</header>
+
+<section class="demo-wrap">
+  <div class="demo-frame">
+    <canvas id="mech-canvas"></canvas>
+    <div class="demo-hud">
+      <div class="stage-name" id="stage-name"></div>
+      <div class="stage-desc" id="stage-desc"></div>
+    </div>
+  </div>
+  <div class="demo-controls">
+    <button id="btn-prev" aria-label="Previous step">←</button>
+    <div class="dots" id="dots"></div>
+    <button id="btn-next" aria-label="Next step">→</button>
+  </div>
+  <div class="demo-note">LOW-POLY MODELS · PROCEDURALLY GENERATED · CANVAS 2D RENDERER</div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script>
+const cv=document.getElementById('mech-canvas'),ctx=cv.getContext('2d');
+const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+let W,H;
+function resize(){W=cv.width=cv.offsetWidth*devicePixelRatio;H=cv.height=cv.offsetHeight*devicePixelRatio;}
+resize();addEventListener('resize',resize);
+
+const rgbCache={};
+function rgb(hex){
+  if(!rgbCache[hex]){
+    const n=parseInt(hex.slice(1),16);
+    rgbCache[hex]=[(n>>16)&255,(n>>8)&255,n&255];
+  }
+  return rgbCache[hex];
+}
+const lerp=(a,b,k)=>a+(b-a)*k;
+const lerpV=(a,b,k)=>{a[0]=lerp(a[0],b[0],k);a[1]=lerp(a[1],b[1],k);a[2]=lerp(a[2],b[2],k);};
+const smooth=x=>{x=Math.min(1,Math.max(0,x));return x*x*(3-2*x);};
+
+/* OBJ+MTL loader: geometry per component file, colors/alpha from the shared MTL.
+   Output keeps the renderer's shape: [{c:'#rrggbb', a, v:[[x,y,z]..], t:[[i,j,k]..]}] */
+function parseMtl(text){
+  const mats={};let cur=null;
+  for(const ln of text.split('\n')){
+    const p=ln.trim().split(/\s+/);
+    if(p[0]==='newmtl'){cur={c:'#000000',a:1};mats[p[1]]=cur;}
+    else if(p[0]==='Kd'&&cur)cur.c='#'+p.slice(1,4).map(x=>Math.round(parseFloat(x)*255).toString(16).padStart(2,'0')).join('');
+    else if(p[0]==='d'&&cur)cur.a=parseFloat(p[1]);
+  }
+  return mats;
+}
+function parseObj(text,mats){
+  const parts=[];let part=null,base=0,nv=0;
+  for(const ln of text.split('\n')){
+    const p=ln.trim().split(/\s+/);
+    if(p[0]==='o'){part={c:'#ffffff',a:1,v:[],t:[]};parts.push(part);base=nv;}
+    else if(p[0]==='usemtl'&&part)Object.assign(part,mats[p[1]]);
+    else if(p[0]==='v'&&part){part.v.push(p.slice(1,4).map(Number));nv++;}
+    else if(p[0]==='f'&&part)part.t.push(p.slice(1,4).map(x=>parseInt(x)-1-base));
+  }
+  return parts;
+}
+async function loadMeshes(){
+  const names=['tcell','neuron','ecto','core','tf','bcan','bdnf','trkb','dna'];
+  const dir='{{ url_for('static', filename='mechanism-meshes/') }}';
+  const texts=await Promise.all([dir+'materials.mtl',...names.map(n=>dir+n+'.obj')].map(u=>fetch(u).then(r=>r.text())));
+  const mats=parseMtl(texts[0]);
+  const M={};
+  names.forEach((n,i)=>M[n]=parseObj(texts[i+1],mats));
+  return M;
+}
+
+(async()=>{
+let MECH_MESHES;
+try{MECH_MESHES=await loadMeshes();}
+catch(e){
+  // file:// 双击打开会被 CORS 拦截 — 提示改用本地服务器
+  const d=document.createElement('div');
+  d.style.cssText='padding:2em;color:#F3B9C8;font:14px/1.8 sans-serif';
+  d.textContent='模型加载失败:请用本地服务器打开 —— 在项目根目录运行 python -m http.server 8321,然后访问 http://127.0.0.1:8321/mechanism-demo.html(file:// 直接双击会被浏览器拦截)。';
+  document.body.prepend(d);
+  return;
+}
+
+/* ---------- scene instances ---------- */
+function mk(mesh,o){const m=Object.assign({mesh,pos:[0,0,0],tgt:[0,0,0],rot:[0,0,0],scale:1,show:true,glow:0,tgtGlow:0,alpha:1,tgtAlpha:1},o);m.tgt=m.pos.slice();return m;}
+/* every protein is anchored on a cell surface: BCAN sits on the neuron (ECM/PNN),
+   SynNotch spans the T cell membrane, TF hangs inside as the receptor's own
+   intracellular domain, TrkB on the neuron membrane */
+const O={
+  tcell:mk(MECH_MESHES.tcell,{pos:[-2.85,0,0],scale:2.2}),
+  neuron:mk(MECH_MESHES.neuron,{pos:[3.3,-.15,0],rot:[-1.22,0,.3],scale:1.6}),
+  // receptor split for the cleavage animation: ectodomain / TM core / TF
+  ecto:mk(MECH_MESHES.ecto,{pos:[-.75,.35,.1],rot:[0,Math.PI/2,0],scale:1.1}),
+  core:mk(MECH_MESHES.core,{pos:[-.75,.35,.1],rot:[0,Math.PI/2,0],scale:1.1}),
+  tf:mk(MECH_MESHES.tf,{pos:[-1.47,.35,.1]}),
+  bcan:mk(MECH_MESHES.bcan,{pos:[1.82,.35,.1]}),
+  trkb:mk(MECH_MESHES.trkb,{pos:[2.63,-.75,.3],rot:[0,-Math.PI/2,0],scale:.8}),
+  dna:mk(MECH_MESHES.dna,{pos:[-1.44,-.1,.22],rot:[-Math.PI/2,0,0],scale:.5}),
+};
+const BDNF_S=[.35,.6,.15],BDNF_E=[2.23,-.7,.3];
+const DOCK_OFF=[[0,0,0],[.13,.09,.05],[-.11,.11,-.05],[.06,-.1,.09],[-.15,-.03,.07],[.11,.03,-.1]];
+const bdnfs=[];
+for(let i=0;i<6;i++)bdnfs.push(mk(MECH_MESHES.bdnf,{show:false,scale:.5,t:-1}));
+
+/* ---------- stages ---------- */
+const STAGES=[
+ {name:'全景 · OVERVIEW',hold:3.5,
+  desc:'工程化 T 细胞(左)巡逻至梗死灶附近;右侧是受损神经元,周围分布着病灶标志物 BCAN。T 细胞表面携带着 a-BCAN SynNotch 受体。'},
+ {name:'① 识别 · RECOGNITION',hold:4,
+  desc:'T 细胞靠近病灶,SynNotch 的 scFv 识别域与 BCAN 结合。健康组织不表达 BCAN —— 只有损伤部位能触发受体。'},
+ {name:'② 切割 · CLEAVAGE',hold:4,
+  desc:'结合产生的机械拉力暴露切割位点:ADAM10/TACE 完成 S2 切割,γ-分泌酶完成 S3 切割,SynNotch 自身的胞内段——转录因子 VP64-Gal4 被释放。'},
+ {name:'③ 转录 · TRANSCRIPTION',hold:4.5,
+  desc:'VP64-Gal4 进入细胞核:GAL4 结构域特异性结合 5×UAS,VP64 招募共激活复合物,BDNF 基因转录开启。'},
+ {name:'④ 分泌 · SECRETION',hold:7,
+  desc:'新生的 BDNF 经致密核心囊泡(DCV)包装,在病灶局部定向释放,弥散向受损神经元。'},
+ {name:'⑤ 修复 · REPAIR',hold:6,
+  desc:'BDNF 结合神经元表面的 TrkB 受体,激活下游存活与修复信号 —— 断裂的桥,重新接上了。'},
+];
+function applyStage(i){
+  O.bcan.tgtGlow=0;O.dna.tgtGlow=0;O.neuron.tgtGlow=0;O.tf.tgtGlow=0;O.ecto.tgtGlow=0;O.core.tgtGlow=0;
+  // fade the cell body when the camera goes inside (cleavage/transcription)
+  O.tcell.tgtAlpha=(i===2||i===3)?.3:1;
+  const st=(o,x,y,z)=>o.tgt.splice(0,3,x,y,z);
+  if(i===0){
+    st(O.tcell,-2.85,0,0);st(O.ecto,-.75,.35,.1);st(O.core,-.75,.35,.1);st(O.tf,-1.47,.35,.1);st(O.bcan,1.82,.35,.1);
+  }else{
+    // synapse: membrane edge at x≈0.47, receptor socket cradles the BCAN ball at x≈1.82,
+    // a clear ~1.5-wide cleft separates the two cells
+    st(O.tcell,-1.7,0,0);st(O.core,.4,.35,.1);st(O.tf,-.32,.35,.1);
+    if(i<3){st(O.ecto,.4,.35,.1);st(O.bcan,1.82,.35,.1);}
+    else{st(O.ecto,.8,.7,.1);st(O.bcan,2.22,.7,.1);}  // ectodomain+BCAN stay shed after S2
+  }
+  if(i===1){O.bcan.tgtGlow=1;O.ecto.tgtGlow=.7;}
+  if(i===2)O.tf.tgtGlow=.8;
+  if(i>=3){st(O.tf,-1.2,.05,.2);O.dna.tgtGlow=1;O.tf.tgtGlow=.8;}
+  if(i>=5)O.neuron.tgtGlow=.9;
+}
+let stage=0,stageT=0,autoPlay=!reduced;
+const dotsEl=document.getElementById('dots');
+STAGES.forEach((_,i)=>{
+  const d=document.createElement('button');d.className='dot';d.setAttribute('aria-label','Step '+(i+1));
+  d.onclick=()=>setStage(i);dotsEl.appendChild(d);
+});
+function setStage(i){
+  stage=(i+STAGES.length)%STAGES.length;stageT=0;applyStage(stage);
+  document.getElementById('stage-name').textContent=STAGES[stage].name;
+  document.getElementById('stage-desc').textContent=STAGES[stage].desc;
+  dotsEl.querySelectorAll('.dot').forEach((d,j)=>d.classList.toggle('on',j===stage));
+  if(stage<4)for(const b of bdnfs){b.show=false;b.t=-1;}
+}
+document.getElementById('btn-prev').onclick=()=>{autoPlay=false;setStage(stage-1);};
+document.getElementById('btn-next').onclick=()=>{autoPlay=false;setStage(stage+1);};
+addEventListener('keydown',e=>{
+  if(e.key==='ArrowLeft'){autoPlay=false;setStage(stage-1);}
+  if(e.key==='ArrowRight'){autoPlay=false;setStage(stage+1);}
+});
+setStage(0);
+
+/* ---------- camera ---------- */
+/* per-stage shot: look-at point (or follow an instance), zoom, orbit angle, tilt */
+const CAMS=[
+ {look:[0,.05,0],   zoom:.14,ang:.55,tlt:.30},   // overview: whole scene
+ {look:[1.0,.35,.1],zoom:.40,ang:.10,tlt:.16},   // close-up: SynNotch socket x BCAN ball in profile
+ {follow:'tf',      zoom:.36,ang:.40,tlt:.28},   // track VP64-Gal4 into the nucleus
+ {look:[-1.45,-.05,.2], zoom:.40,ang:.50,tlt:.30},   // inside the nucleus: 5xUAS
+ {look:[1.0,.1,.2], zoom:.24,ang:.60,tlt:.30},   // pull back: BDNF flight path
+ {look:[2.55,-.4,.2],zoom:.36,ang:.35,tlt:.26},   // neuron side: TrkB docking
+];
+const camCur={look:CAMS[0].look.slice(),zoom:CAMS[0].zoom,ang:CAMS[0].ang,tlt:CAMS[0].tlt};
+let dragA=0,dragT=0,dragging=false,lx=0,ly=0;
+cv.addEventListener('pointerdown',e=>{dragging=true;lx=e.clientX;ly=e.clientY;cv.setPointerCapture(e.pointerId);});
+cv.addEventListener('pointermove',e=>{
+  if(!dragging)return;
+  dragA=Math.min(.75,Math.max(-.75,dragA+(e.clientX-lx)*.006));dragT=Math.min(.9,Math.max(-.5,dragT+(e.clientY-ly)*.004));
+  lx=e.clientX;ly=e.clientY;
+});
+cv.addEventListener('pointerup',()=>dragging=false);
+
+/* ---------- render ---------- */
+const F=7;
+const faces=[];
+function rotV(v,r,sc,out){
+  let x=v[0]*sc,y=v[1]*sc,z=v[2]*sc,c,s,t;
+  if(r[0]){c=Math.cos(r[0]);s=Math.sin(r[0]);t=y*c-z*s;z=y*s+z*c;y=t;}
+  if(r[1]){c=Math.cos(r[1]);s=Math.sin(r[1]);t=x*c+z*s;z=-x*s+z*c;x=t;}
+  if(r[2]){c=Math.cos(r[2]);s=Math.sin(r[2]);t=x*c-y*s;y=x*s+y*c;x=t;}
+  out[0]=x;out[1]=y;out[2]=z;
+}
+const tmp=[0,0,0];
+let lastT=performance.now();
+function tick(){
+  ctx.clearRect(0,0,W,H);
+  const dt=Math.min(.05,(performance.now()-lastT)/1000);lastT=performance.now();
+  stageT+=dt;
+  if(autoPlay&&stageT>STAGES[stage].hold)setStage(stage+1);
+  const tm=performance.now()*.001;
+  for(const k in O){const o=O[k];lerpV(o.pos,o.tgt,.07);o.glow=lerp(o.glow,o.tgtGlow,.06);o.alpha=lerp(o.alpha,o.tgtAlpha,.06);}
+
+  /* cleavage micro-timeline: S2 frees the ectodomain (drifts off with BCAN), S3 releases the TF */
+  if(stage===2){
+    const k=smooth((stageT-.5)/1.2);
+    O.ecto.tgt[0]=.4+.4*k;O.ecto.tgt[1]=.35+.35*k;
+    O.bcan.tgt[0]=1.82+.4*k;O.bcan.tgt[1]=.35+.35*k;
+    O.core.glow=Math.max(0,1-stageT/1.2)*.9;
+    if(stageT>1.7)O.tf.tgt.splice(0,3,-1.55,-.1,.2);
+  }
+
+  /* BDNF particles */
+  for(let i=0;i<bdnfs.length;i++){
+    const b=bdnfs[i];
+    if(stage>=4){
+      const p=stage===4?smooth((stageT-i*.5)/2.2):1;  // stage 5: already docked, no re-secretion
+      if(p>0){
+        b.show=true;
+        const E=[BDNF_E[0]+DOCK_OFF[i][0],BDNF_E[1]+DOCK_OFF[i][1],BDNF_E[2]+DOCK_OFF[i][2]];
+        b.pos[0]=lerp(BDNF_S[0],E[0],p);
+        b.pos[1]=lerp(BDNF_S[1],E[1],p)+Math.sin(p*Math.PI)*.5+Math.sin(tm*2+i)*.03;
+        b.pos[2]=lerp(BDNF_S[2],E[2],p)+Math.sin(p*Math.PI*2+i*1.7)*.15;
+        b.glow=p<1?.9:.35;
+      }
+    }
+  }
+
+  /* camera follow: ease toward the stage shot */
+  const cm=CAMS[stage];
+  lerpV(camCur.look,cm.follow?O[cm.follow].pos:cm.look,.05);
+  camCur.zoom=lerp(camCur.zoom,cm.zoom,.05);
+  camCur.ang=lerp(camCur.ang,cm.ang,.05);
+  camCur.tlt=lerp(camCur.tlt,cm.tlt,.05);
+  const A=camCur.ang+dragA+(reduced?0:Math.sin(tm*.12)*.18),T=camCur.tlt+dragT;
+  const cA=Math.cos(A),sA=Math.sin(A),cT=Math.cos(T),sT=Math.sin(T);
+  const S=Math.min(W,H)*camCur.zoom;
+  /* place the look-at point at screen centre */
+  const fx=camCur.look[0]*cA+camCur.look[2]*sA;
+  const fz1=-camCur.look[0]*sA+camCur.look[2]*cA;
+  const fy=camCur.look[1]*cT-fz1*sT,fz2=camCur.look[1]*sT+fz1*cT;
+  const fp=F/(F-fz2);
+  const cx=W*.5-fx*fp*S,cy=H*.52+fy*fp*S;
+
+  faces.length=0;
+  const drawList=[O.tcell,O.neuron,O.ecto,O.core,O.tf,O.bcan,O.trkb,O.dna,...bdnfs];
+  for(const inst of drawList){
+    if(!inst.show)continue;
+    for(const part of inst.mesh){
+      const V=part.v,n=V.length;
+      const sx=new Float64Array(n),sy=new Float64Array(n),sz=new Float64Array(n),rx=new Float64Array(n),ry=new Float64Array(n);
+      for(let i=0;i<n;i++){
+        /* mesh verts are component-local; apply instance transform: rot(v*scale)+pos */
+        rotV(V[i],inst.rot,inst.scale,tmp);
+        const x=tmp[0]+inst.pos[0],y=tmp[1]+inst.pos[1],z=tmp[2]+inst.pos[2];
+        const x1=x*cA+z*sA,z1=-x*sA+z*cA;
+        const y1=y*cT-z1*sT,z2=y*sT+z1*cT;
+        const p=F/(F-z2);
+        sx[i]=cx+x1*p*S;sy[i]=cy-y1*p*S;sz[i]=z2;rx[i]=x1;ry[i]=y1;
+      }
+      const T2=part.t;
+      for(let i=0;i<T2.length;i++){
+        const a=T2[i][0],b=T2[i][1],c=T2[i][2];
+        faces.push({sx,sy,sz,rx,ry,a,b,c,z:sz[a]+sz[b]+sz[c],col:part.c,al:part.a*inst.alpha,g:inst.glow});
+      }
+    }
+  }
+  faces.sort((p,q)=>p.z-q.z);
+  for(const f of faces){
+    const ux=f.rx[f.b]-f.rx[f.a],uy=f.ry[f.b]-f.ry[f.a],uz=f.sz[f.b]-f.sz[f.a];
+    const vx=f.rx[f.c]-f.rx[f.a],vy=f.ry[f.c]-f.ry[f.a],vz=f.sz[f.c]-f.sz[f.a];
+    let nx=uy*vz-uz*vy,ny=uz*vx-ux*vz,nz=ux*vy-uy*vx;
+    if(nz<0){nx=-nx;ny=-ny;nz=-nz;}
+    const il=1/(Math.sqrt(nx*nx+ny*ny+nz*nz)||1);
+    let la=.32+.68*Math.max(0,(nx*.3-ny*.5+nz*.81)*il);
+    la=Math.min(1.15,la*(1+f.g*.55));
+    const c=rgb(f.col);
+    ctx.fillStyle=`rgba(${c[0]*la|0},${c[1]*la|0},${c[2]*la|0},${f.al})`;
+    ctx.beginPath();
+    ctx.moveTo(f.sx[f.a],f.sy[f.a]);ctx.lineTo(f.sx[f.b],f.sy[f.b]);ctx.lineTo(f.sx[f.c],f.sy[f.c]);
+    ctx.closePath();ctx.fill();
+  }
+
+  /* glow: one radial halo per glowing object — per-face shadowBlur is a canvas perf killer */
+  for(const inst of drawList){
+    if(!inst.show||inst.glow<.05)continue;
+    const gx=inst.pos[0]*cA+inst.pos[2]*sA,gz1=-inst.pos[0]*sA+inst.pos[2]*cA;
+    const gy=inst.pos[1]*cT-gz1*sT,gz2=inst.pos[1]*sT+gz1*cT;
+    const gp=F/(F-gz2),X=cx+gx*gp*S,Y=cy-gy*gp*S,R=inst.scale*S*gp*.6;
+    const gc=rgb(inst.mesh[0].c);
+    const gr=ctx.createRadialGradient(X,Y,0,X,Y,R);
+    gr.addColorStop(0,`rgba(${gc[0]},${gc[1]},${gc[2]},${(.3*inst.glow).toFixed(3)})`);
+    gr.addColorStop(1,'rgba(0,0,0,0)');
+    ctx.fillStyle=gr;
+    ctx.beginPath();ctx.arc(X,Y,R,0,7);ctx.fill();
+  }
+
+  /* labels */
+  ctx.font=`${11*devicePixelRatio}px 'Noto Sans SC',sans-serif`;
+  ctx.textAlign='center';
+  const lab=(world,txt,alpha)=>{
+    if(alpha<=0)return;
+    const x1=world[0]*cA+world[2]*sA,z1=-world[0]*sA+world[2]*cA;
+    const y1=world[1]*cT-z1*sT,z2=world[1]*sT+z1*cT;
+    const p=F/(F-z2);
+    ctx.globalAlpha=alpha;
+    ctx.fillStyle='#DDF2FF';
+    ctx.fillText(txt,cx+x1*p*S,cy-y1*p*S);
+    ctx.globalAlpha=1;
+  };
+  lab([O.tcell.pos[0],O.tcell.pos[1]-2.6,0],'T 细胞',.85);
+  lab([O.neuron.pos[0],O.neuron.pos[1]+2.2,0],'神经元',.85);
+  lab([O.core.pos[0],O.core.pos[1]-.6,0],'SynNotch',stage>=1?.9:.45);
+  lab([O.bcan.pos[0],O.bcan.pos[1]+.7,0],'BCAN',stage>=1?.9:.45);
+  lab([O.tf.pos[0],O.tf.pos[1]+.5,O.tf.pos[2]],'VP64-Gal4 · 胞内段',stage>=2?.9:0);
+  lab([O.dna.pos[0],O.dna.pos[1]-.6,O.dna.pos[2]],'5×UAS · BDNF 基因',stage>=3?.9:0);
+  lab([O.trkb.pos[0],O.trkb.pos[1]+.55,O.trkb.pos[2]],'TrkB',stage>=4?.9:.4);
+  if(stage>=4&&bdnfs[0].show)lab([bdnfs[0].pos[0],bdnfs[0].pos[1]+.35,bdnfs[0].pos[2]],'BDNF',.9);
+
+  /* transcription output: mRNA dots travel from 5xUAS to the membrane */
+  if(stage===3){
+    for(let i=0;i<4;i++){
+      const p=smooth((stageT-i*.7)/1.8);
+      if(p<=0)continue;
+      const wx=lerp(-1.44,BDNF_S[0],p),wy=lerp(-.1,BDNF_S[1],p)+Math.sin(p*3+i)*.08,wz=lerp(.22,BDNF_S[2],p);
+      const mx=wx*cA+wz*sA,mz1=-wx*sA+wz*cA;
+      const my=wy*cT-mz1*sT,mz2=wy*sT+mz1*cT;
+      const mp=F/(F-mz2);
+      ctx.globalAlpha=.9-p*.3;
+      ctx.fillStyle='#F4C76B';
+      ctx.beginPath();ctx.arc(cx+mx*mp*S,cy-my*mp*S,3.2*devicePixelRatio,0,7);ctx.fill();
+      ctx.globalAlpha=1;
+      if(i===0)lab([wx,wy+.22,wz],'mRNA',.8);
+    }
+  }
+
+  requestAnimationFrame(tick);
+}
+tick();
+})();
+</script>
+{% endblock %}

@@ -1,0 +1,64 @@
+{% extends "layout.html" %}
+
+{% block title %}Contribution — BRIDGE · iGEM 2026{% endblock %}
+{% block signal %}connected{% endblock %}
+
+{% block page_content %}
+<header class="page-hero">
+  <span class="hero-tag">CONTRIBUTION</span>
+  <h1>What we leave<br><span class="grad">behind.</span></h1>
+  <p class="lede">New parts, a measurement design pattern, a modeling framework, and education materials — contributions future iGEM teams can pick up and build on.</p>
+</header>
+
+<div class="article-wrap">
+  <article class="article-body">
+
+    <h2 id="parts-contrib">New Parts for the Registry</h2>
+    <p>BRIDGE contributes its <strong>four core plasmids</strong> to the Registry: the <strong>a-BCAN-SynNotch</strong> receptor and the matched <strong>5×UAS-Luc/GFP/BDNF</strong> family. BCAN (Brevican) is, to our knowledge, a new SynNotch antigen target — opening CNS injury as an addressable destination for gated cell therapies. Full sequences and characterization notes are documented on the <a href="{{ url_for('pages', page='parts') }}" style="color:var(--deep-teal)">Parts page</a>.</p>
+
+    <h2 id="gate-trick">The Reporter–Payload Gate</h2>
+    <p>A reusable design pattern for therapeutic circuits: place reporters (<strong>Luc</strong>, <strong>GFP</strong>) and the therapeutic payload (<strong>BDNF</strong>) under the <em>same</em> 5×UAS gate. Characterization data then predicts therapeutic behavior directly — any team building a gated payload circuit can adopt this pattern to debug with reporters before spending the medicine.</p>
+
+    <h2 id="model-framework">A Reusable Modeling Framework</h2>
+    <p>The two-scale framework on the <a href="{{ url_for('pages', page='model') }}" style="color:var(--deep-teal)">Model page</a> — intracellular cascade kinetics coupled to tissue-level payload diffusion — is not specific to BCAN or BDNF. Teams working on other SynNotch systems or cell-therapy dosing questions can reuse the structure, and the software release on the <a href="{{ url_for('pages', page='software') }}" style="color:var(--deep-teal)">Software page</a> makes that practical.</p>
+
+    <h2 id="education-materials">Education Materials</h2>
+    <p>Beyond the bench: <strong>2 card decks, 1 picture book, and 2 communication handbooks</strong> for explaining synthetic biology to non-scientists, plus the playbook behind our <strong>Kindle community</strong> — an open interest group that grew past 80 members. Details live on the <a href="{{ url_for('pages', page='education') }}" style="color:var(--deep-teal)">Education page</a>.</p>
+
+    <blockquote>Every contribution here is documented so a future team can use it directly — parts in the Registry, patterns in these pages, code in the repository, materials in print.</blockquote>
+
+  </article>
+
+  <aside class="outline">
+    <div class="outline-title">OUTLINE</div>
+    <a href="#parts-contrib">New Parts for the Registry</a>
+    <a href="#gate-trick">The Reporter–Payload Gate</a>
+    <a href="#model-framework">A Reusable Modeling Framework</a>
+    <a href="#education-materials">Education Materials</a>
+  </aside>
+</div>
+
+<div class="next-pages">
+  <div class="section-label">START BY THESE</div>
+  <div class="next-grid">
+    <a class="next-card" href="{{ url_for('pages', page='parts') }}">
+      <div class="kicker">PARTS</div>
+      <h3>The Four Plasmids</h3>
+      <p>Sequences and characterization of every contributed part.</p>
+      <span class="arrow">→</span>
+    </a>
+    <a class="next-card" href="{{ url_for('pages', page='engineering') }}">
+      <div class="kicker">ENGINEERING</div>
+      <h3>Build · Test · Learn</h3>
+      <p>The cycles that characterized each contribution.</p>
+      <span class="arrow">→</span>
+    </a>
+    <a class="next-card" href="{{ url_for('pages', page='education') }}">
+      <div class="kicker">EDUCATION</div>
+      <h3>Teaching the Bridge</h3>
+      <p>The materials and communities behind the outreach.</p>
+      <span class="arrow">→</span>
+    </a>
+  </div>
+</div>
+{% endblock %}

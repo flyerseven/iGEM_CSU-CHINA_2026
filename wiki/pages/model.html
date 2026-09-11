@@ -1,0 +1,62 @@
+{% extends "layout.html" %}
+
+{% block title %}Model — BRIDGE · iGEM 2026{% endblock %}
+{% block signal %}connected{% endblock %}
+
+{% block page_content %}
+<header class="page-hero">
+  <span class="hero-tag">MODEL</span>
+  <h1>Simulate the bridge<br><span class="grad">before you build it.</span></h1>
+  <p class="lede">A multi-scale kinetic model of the SynNotch-mediated therapeutic cascade — from molecular recognition at the lesion to BDNF diffusion across the injured microenvironment.</p>
+</header>
+
+<div class="article-wrap">
+  <article class="article-body">
+
+    <h2 id="why-model">Why Model?</h2>
+    <p>The BRIDGE cascade has more tunable knobs than a wet lab can sweep. Modeling turns the circuit into a <strong>smart assistant for SynNotch construction</strong>: it tells the bench which parameters matter, and what dose of engineered T cells the clinic would need.</p>
+
+    <h2 id="pathway-sim">Scale 1 · Pathway Simulation</h2>
+    <p><strong>From recognition to secretion.</strong> A kinetic model of the intracellular cascade — BCAN binding, S2/S3 cleavage, GAL4-VP64 release, 5×UAS transcription, BDNF output. Algorithm selection compared candidate kinetic schemes against the pathway's known biology.</p>
+    <p><strong>Result:</strong> the model identifies <strong>the knob that maximizes therapeutic efficiency</strong> — which step in the cascade is rate-limiting, and where engineering effort buys the most BDNF per BCAN.</p>
+
+    <h2 id="microenv-sim">Scale 2 · Microenvironment Simulation</h2>
+    <p><strong>From secretion to targeted repair.</strong> A spatial model of BDNF diffusion through the injured tissue microenvironment: a 3D concentration cloud of BDNF spreading from secreting T cells, plus concentration–time curves under different diffusion and reaction parameters — including the temporal profiles seen by normal neurons.</p>
+    <p><strong>Result:</strong> the model finds <strong>the appropriate dosage for SynNotch T cell injection</strong> — enough cells to cover the lesion, few enough to keep healthy tissue below pharmacologically active BDNF.</p>
+
+    <blockquote>Scale 1 says how hard each cell works. Scale 2 says how many cells to send. Together they dose the bridge.</blockquote>
+
+  </article>
+
+  <aside class="outline">
+    <div class="outline-title">OUTLINE</div>
+    <a href="#why-model">Why Model?</a>
+    <a href="#pathway-sim">Scale 1 · Pathway Simulation</a>
+    <a href="#microenv-sim">Scale 2 · Microenvironment Simulation</a>
+  </aside>
+</div>
+
+<div class="next-pages">
+  <div class="section-label">START BY THESE</div>
+  <div class="next-grid">
+    <a class="next-card" href="{{ url_for('pages', page='engineering') }}">
+      <div class="kicker">ENGINEERING</div>
+      <h3>Build · Test · Learn</h3>
+      <p>The wet-lab pipeline the model advises.</p>
+      <span class="arrow">→</span>
+    </a>
+    <a class="next-card" href="{{ url_for('pages', page='results') }}">
+      <div class="kicker">RESULTS</div>
+      <h3>The Data</h3>
+      <p>Where predictions met measurements.</p>
+      <span class="arrow">→</span>
+    </a>
+    <a class="next-card" href="{{ url_for('pages', page='design') }}">
+      <div class="kicker">DESIGN</div>
+      <h3>Back to the Circuit</h3>
+      <p>Three modules, five steps, one bridge.</p>
+      <span class="arrow">→</span>
+    </a>
+  </div>
+</div>
+{% endblock %}

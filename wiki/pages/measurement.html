@@ -1,0 +1,77 @@
+{% extends "layout.html" %}
+
+{% block title %}Measurement — BRIDGE · iGEM 2026{% endblock %}
+{% block signal %}connected{% endblock %}
+
+{% block page_content %}
+<header class="page-hero">
+  <span class="hero-tag">MEASUREMENT</span>
+  <h1>If you can't measure it,<br><span class="grad">you can't gate it.</span></h1>
+  <p class="lede">The measurement strategy behind BRIDGE — one gate, two reporters, and a chain of assays that turns a molecular switch into numbers with units.</p>
+</header>
+
+<div class="article-wrap">
+  <article class="article-body">
+
+    <div class="stat-band">
+      <div><div class="big teal" data-target="2" data-suffix="">0</div><div class="cap">REPORTERS ON ONE GATE</div></div>
+      <div><div class="big" data-target="1" data-suffix="">0</div><div class="cap">THERAPEUTIC PAYLOAD — BDNF</div></div>
+      <div><div class="big amber" data-target="4" data-suffix="">0</div><div class="cap">CORE ASSAYS IN THE CHAIN</div></div>
+    </div>
+
+    <h2 id="strategy">One Gate, Two Reporters</h2>
+    <p>The circuit's measurement design is built in, not bolted on. <strong>5×UAS-Luc</strong> gives a quantitative luminescent readout of gate activity; <strong>5×UAS-GFP</strong> gives a spatial, single-cell fluorescent readout. Because the payload <strong>5×UAS-BDNF</strong> sits under the identical gate, reporter behavior is a calibrated prediction of therapeutic output — we can measure the switch without spending the medicine.</p>
+
+    <h2 id="assays">The Core Assays</h2>
+
+    <h3 id="wb-if">Western Blot &amp; Immunofluorescence</h3>
+    <p><strong>Target:</strong> SynNotch receptor presence and membrane localization. <strong>Readout:</strong> band intensity and surface fluorescence — the binary check that the sensor is on the membrane where BCAN can reach it.</p>
+
+    <h3 id="luciferase">Luciferase Reporter Assay</h3>
+    <p><strong>Target:</strong> gate activation after BCAN stimulation. <strong>Readout:</strong> relative light units across BCAN doses and controls — the dose–response curve of the Boolean gate, captured quantitatively.</p>
+
+    <h3 id="elisa">ELISA</h3>
+    <p><strong>Target:</strong> secreted BDNF. <strong>Readout:</strong> concentration in supernatant, against a standard curve — the number that the Luc/GFP signals are expected to predict.</p>
+
+    <h3 id="coculture">Co-culture Viability Readouts</h3>
+    <p><strong>Target:</strong> neuroprotective function. <strong>Readout:</strong> survival and recovery of injured neurons co-cultured with circuit-activated cells — whether measured BDNF becomes measured repair.</p>
+
+    <blockquote>Meaningful targets, precise capture, clear units — each assay answers one stage of the <a href="{{ url_for('pages', page='experiments') }}" style="color:inherit">Experiments pipeline</a>, and each result reports to the <a href="{{ url_for('pages', page='results') }}" style="color:inherit">Results page</a>.</blockquote>
+
+  </article>
+
+  <aside class="outline">
+    <div class="outline-title">OUTLINE</div>
+    <a href="#strategy">One Gate, Two Reporters</a>
+    <a href="#assays">The Core Assays</a>
+    <a href="#wb-if" class="lvl-3">WB &amp; Immunofluorescence</a>
+    <a href="#luciferase" class="lvl-3">Luciferase Reporter Assay</a>
+    <a href="#elisa" class="lvl-3">ELISA</a>
+    <a href="#coculture" class="lvl-3">Co-culture Readouts</a>
+  </aside>
+</div>
+
+<div class="next-pages">
+  <div class="section-label">START BY THESE</div>
+  <div class="next-grid">
+    <a class="next-card" href="{{ url_for('pages', page='experiments') }}">
+      <div class="kicker">EXPERIMENTS</div>
+      <h3>The Protocols</h3>
+      <p>Where each assay fits in the five-stage pipeline.</p>
+      <span class="arrow">→</span>
+    </a>
+    <a class="next-card" href="{{ url_for('pages', page='results') }}">
+      <div class="kicker">RESULTS</div>
+      <h3>The Data</h3>
+      <p>What these measurements produced.</p>
+      <span class="arrow">→</span>
+    </a>
+    <a class="next-card" href="{{ url_for('pages', page='model') }}">
+      <div class="kicker">MODEL</div>
+      <h3>Predicting the Bridge</h3>
+      <p>The predictions these numbers test.</p>
+      <span class="arrow">→</span>
+    </a>
+  </div>
+</div>
+{% endblock %}

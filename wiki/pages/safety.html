@@ -1,0 +1,60 @@
+{% extends "layout.html" %}
+
+{% block title %}Safety — BRIDGE · iGEM 2026{% endblock %}
+{% block signal %}connected{% endblock %}
+
+{% block page_content %}
+<header class="page-hero">
+  <span class="hero-tag">SAFETY</span>
+  <h1>Safe by design,<br><span class="grad">not by accident.</span></h1>
+  <p class="lede">BRIDGE's core safety feature is its architecture: the payload is silent everywhere BCAN is absent. Around that, standard containment and responsible cell-engineering practice.</p>
+</header>
+
+<div class="article-wrap">
+  <article class="article-body">
+
+    <h2 id="design-safety">Safety in the Design</h2>
+    <p>The <strong>Boolean SynNotch gate</strong> is itself a safety device: no BCAN, no cleavage, no BDNF. The therapeutic signal is molecularly confined to the lesion microenvironment, directly addressing the off-target toxicity wall that limits conventional CNS biologics.</p>
+
+    <h2 id="lab-safety">Safety in the Lab</h2>
+    <p>All work follows institutional biosafety rules for mammalian cell culture and standard molecular cloning: trained personnel, contained workspaces, and approved waste streams. Constructs are handled in cell lines, not whole organisms.</p>
+
+    <h2 id="responsible">Responsible Development</h2>
+    <p>Cell therapy in the brain demands humility. Our <a href="{{ url_for('pages', page='human-practices') }}" style="color:var(--deep-teal)">Human Practices</a> program keeps clinicians, patients, and the public in the loop, and our <a href="{{ url_for('pages', page='model') }}" style="color:var(--deep-teal)">Model</a> estimates dosing limits before any translational step is contemplated.</p>
+
+    <blockquote class="callout-warn">A therapy that acts everywhere acts nowhere safely. BRIDGE's answer is an address, not a flood.</blockquote>
+
+  </article>
+
+  <aside class="outline">
+    <div class="outline-title">OUTLINE</div>
+    <a href="#design-safety">Safety in the Design</a>
+    <a href="#lab-safety">Safety in the Lab</a>
+    <a href="#responsible">Responsible Development</a>
+  </aside>
+</div>
+
+<div class="next-pages">
+  <div class="section-label">START BY THESE</div>
+  <div class="next-grid">
+    <a class="next-card" href="{{ url_for('pages', page='design') }}">
+      <div class="kicker">DESIGN</div>
+      <h3>The SynNotch Circuit</h3>
+      <p>The gate that makes targeting possible.</p>
+      <span class="arrow">→</span>
+    </a>
+    <a class="next-card" href="{{ url_for('pages', page='human-practices') }}">
+      <div class="kicker">HUMAN PRACTICES</div>
+      <h3>Beyond the Bench</h3>
+      <p>The people who keep us honest.</p>
+      <span class="arrow">→</span>
+    </a>
+    <a class="next-card" href="{{ url_for('pages', page='implementation') }}">
+      <div class="kicker">IMPLEMENTATION</div>
+      <h3>Toward the Clinic</h3>
+      <p>The path from bench to bedside.</p>
+      <span class="arrow">→</span>
+    </a>
+  </div>
+</div>
+{% endblock %}

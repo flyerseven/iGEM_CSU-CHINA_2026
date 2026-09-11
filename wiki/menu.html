@@ -1,0 +1,46 @@
+{% set p = request.path.strip('/') %}
+<nav id="nav">
+  <a class="logo" href="{{ url_for('home') }}"><img class="logo-mark" src="{{ url_for('static', filename='img/LOGO.png') }}" alt="">BRIDGE</a>
+  <ul class="nav-links">
+    <li class="nav-dropdown">
+      <a class="dropdown-toggle{{ ' active' if p in ['description','design','engineering','results','parts','contribution','implementation'] }}" href="{{ url_for('pages', page='description') }}">Project</a>
+      <ul class="dropdown-menu">
+        <li><a class="{{ 'active' if p == 'description' }}" href="{{ url_for('pages', page='description') }}">Description</a></li>
+        <li><a class="{{ 'active' if p == 'design' }}" href="{{ url_for('pages', page='design') }}">Design</a></li>
+        <li><a class="{{ 'active' if p == 'engineering' }}" href="{{ url_for('pages', page='engineering') }}">Engineering</a></li>
+        <li><a class="{{ 'active' if p == 'results' }}" href="{{ url_for('pages', page='results') }}">Results</a></li>
+        <li><a class="{{ 'active' if p == 'parts' }}" href="{{ url_for('pages', page='parts') }}">Parts</a></li>
+        <li><a class="{{ 'active' if p == 'contribution' }}" href="{{ url_for('pages', page='contribution') }}">Contribution</a></li>
+        <li><a class="{{ 'active' if p == 'implementation' }}" href="{{ url_for('pages', page='implementation') }}">Implementation</a></li>
+      </ul>
+    </li>
+    <li class="nav-dropdown">
+      <a class="dropdown-toggle{{ ' active' if p in ['experiments','notebook','measurement','alternative-platform','safety'] }}" href="{{ url_for('pages', page='experiments') }}">Wet Lab</a>
+      <ul class="dropdown-menu">
+        <li><a class="{{ 'active' if p == 'experiments' }}" href="{{ url_for('pages', page='experiments') }}">Experiments</a></li>
+        <li><a class="{{ 'active' if p == 'notebook' }}" href="{{ url_for('pages', page='notebook') }}">Notebook</a></li>
+        <li><a class="{{ 'active' if p == 'measurement' }}" href="{{ url_for('pages', page='measurement') }}">Measurement</a></li>
+        <li><a class="{{ 'active' if p == 'alternative-platform' }}" href="{{ url_for('pages', page='alternative-platform') }}">Alternative Platform</a></li>
+        <li><a class="{{ 'active' if p == 'safety' }}" href="{{ url_for('pages', page='safety') }}">Safety and Security</a></li>
+      </ul>
+    </li>
+    <li class="nav-dropdown">
+      <a class="dropdown-toggle{{ ' active' if p in ['model','software'] }}" href="{{ url_for('pages', page='model') }}">Dry Lab</a>
+      <ul class="dropdown-menu">
+        <li><a class="{{ 'active' if p == 'model' }}" href="{{ url_for('pages', page='model') }}">Model</a></li>
+        <li><a class="{{ 'active' if p == 'software' }}" href="{{ url_for('pages', page='software') }}">Software</a></li>
+      </ul>
+    </li>
+    <li class="nav-dropdown">
+      <a class="dropdown-toggle{{ ' active' if p in ['human-practices','education','entrepreneurship','inclusivity','sustainability'] }}" href="{{ url_for('pages', page='human-practices') }}">Engagement</a>
+      <ul class="dropdown-menu">
+        <li><a class="{{ 'active' if p == 'human-practices' }}" href="{{ url_for('pages', page='human-practices') }}">Human Practices</a></li>
+        <li><a class="{{ 'active' if p == 'education' }}" href="{{ url_for('pages', page='education') }}">Education</a></li>
+        <li><a class="{{ 'active' if p == 'entrepreneurship' }}" href="{{ url_for('pages', page='entrepreneurship') }}">Entrepreneurship</a></li>
+        <li><a class="{{ 'active' if p == 'inclusivity' }}" href="{{ url_for('pages', page='inclusivity') }}">Inclusivity</a></li>
+        <li><a class="{{ 'active' if p == 'sustainability' }}" href="{{ url_for('pages', page='sustainability') }}">Sustainability</a></li>
+      </ul>
+    </li>
+    <li><a class="{{ 'active' if p == 'team' }}" href="{{ url_for('pages', page='team') }}">Team</a></li>
+  </ul>
+</nav>

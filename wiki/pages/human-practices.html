@@ -1,0 +1,75 @@
+{% extends "layout.html" %}
+
+{% block title %}Human Practices — BRIDGE · iGEM 2026{% endblock %}
+{% block signal %}connected{% endblock %}
+
+{% block page_content %}
+<header class="page-hero">
+  <span class="hero-tag">HUMAN PRACTICES</span>
+  <h1>Repair is a conversation,<br><span class="grad">not a monologue.</span></h1>
+  <p class="lede">A multi-field, multi-carrier, bidirectionally linked Human Practices program — the public didn't just hear about BRIDGE, it shaped it.</p>
+</header>
+
+<div class="article-wrap">
+  <article class="article-body">
+
+    <div class="stat-band">
+      <div><div class="big teal" data-target="10" data-suffix="+">0</div><div class="cap">OFFLINE SCIENCE EVENTS</div></div>
+      <div><div class="big" data-target="300" data-suffix="+">0</div><div class="cap">PARTICIPANTS REACHED</div></div>
+      <div><div class="big teal" data-target="15" data-suffix="+">0</div><div class="cap">POSTS PUBLISHED ONLINE</div></div>
+      <div><div class="big" data-target="80" data-suffix="+">0</div><div class="cap">KINDLE COMMUNITY MEMBERS</div></div>
+    </div>
+
+    <h2 id="offline">What We Did Offline</h2>
+    <p><strong>10+ offline science events with 300+ participants</strong>, featured in major media — bringing synthetic biology and the BRIDGE concept to schools, communities, and the public square.</p>
+
+    <h2 id="online">What We Did Online</h2>
+    <p>A continuous presence on <strong>WeChat Official Account and Xiaohongshu</strong>, with <strong>15+ posts</strong> translating the science of neural repair into content people actually read and share.</p>
+
+    <h2 id="kindle">The Kindle Community</h2>
+    <p><strong>Kindle</strong> — our synthetic biology interest group — grew to <strong>80+ members</strong> with mixed online and offline activities: a standing community that outlives any single event.</p>
+
+    <h2 id="writings">Science Writings</h2>
+    <p>Durable carriers for the conversation: <strong>2 card decks, 1 picture book, and 2 communication handbooks</strong> — synthetic biology you can hold in your hands.</p>
+
+    <h2 id="listening">Listening to the Public</h2>
+    <p><strong>5+ survey questionnaires</strong>, receiving positive feedback — the bidirectional half of the program. What we heard from patients, families, and the public fed back into how we frame, design, and communicate BRIDGE.</p>
+
+    <blockquote>Human Practices is not outreach about the project. It is input to the project.</blockquote>
+
+  </article>
+
+  <aside class="outline">
+    <div class="outline-title">OUTLINE</div>
+    <a href="#offline">What We Did Offline</a>
+    <a href="#online">What We Did Online</a>
+    <a href="#kindle">The Kindle Community</a>
+    <a href="#writings">Science Writings</a>
+    <a href="#listening">Listening to the Public</a>
+  </aside>
+</div>
+
+<div class="next-pages">
+  <div class="section-label">START BY THESE</div>
+  <div class="next-grid">
+    <a class="next-card" href="{{ url_for('pages', page='description') }}">
+      <div class="kicker">DESCRIPTION</div>
+      <h3>The Problem</h3>
+      <p>Why cerebral infarction needs a bridge.</p>
+      <span class="arrow">→</span>
+    </a>
+    <a class="next-card" href="{{ url_for('pages', page='design') }}">
+      <div class="kicker">DESIGN</div>
+      <h3>The SynNotch Circuit</h3>
+      <p>Sense BCAN, switch on repair.</p>
+      <span class="arrow">→</span>
+    </a>
+    <a class="next-card" href="{{ url_for('pages', page='team') }}">
+      <div class="kicker">TEAM</div>
+      <h3>The People</h3>
+      <p>Who builds BRIDGE.</p>
+      <span class="arrow">→</span>
+    </a>
+  </div>
+</div>
+{% endblock %}

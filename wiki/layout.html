@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="shortcut icon" href="https://static.igem.wiki/common/icons/favicons/igem-2022.svg"/>
+<link rel="license" href="https://creativecommons.org/licenses/by/4.0/"/>
+<title>{% block title %}BRIDGE — iGEM 2026{% endblock %}</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='fonts.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='tokens.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='layout.css') }}">
+{% block head %}{% endblock %}
+</head>
+<body>
+
+<div id="signal-line" class="{% block signal %}connected{% endblock %}"></div>
+<div id="cursor-glow"></div>
+
+{% include 'menu.html' %}
+
+{% block page_content %}{% endblock %}
+
+{% include 'footer.html' %}
+
+<script src="{{ url_for('static', filename='bridge.js') }}"></script>
+{% block scripts %}{% endblock %}
+</body>
+</html>

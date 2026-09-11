@@ -1,0 +1,60 @@
+{% extends "layout.html" %}
+
+{% block title %}Software — BRIDGE · iGEM 2026{% endblock %}
+{% block signal %}connected{% endblock %}
+
+{% block page_content %}
+<header class="page-hero">
+  <span class="hero-tag">SOFTWARE</span>
+  <h1>A smart assistant<br><span class="grad">for the bench.</span></h1>
+  <p class="lede">The computational tools behind BRIDGE turn the SynNotch cascade into something you can query — which knob to turn next, and how many engineered cells a lesion would need.</p>
+</header>
+
+<div class="article-wrap">
+  <article class="article-body">
+
+    <h2 id="what">What It Does</h2>
+    <p>The software packages the BRIDGE model into two usable modules. The <strong>pathway simulator</strong> reproduces the intracellular cascade — BCAN binding, S2/S3 cleavage, GAL4-VP64 release, 5×UAS transcription, BDNF output — and sweeps its kinetic parameters to find the rate-limiting step. The <strong>microenvironment simulator</strong> diffuses secreted BDNF through a 3D lesion volume and reports concentration–time profiles at every cell, including healthy neurons that should stay below pharmacologically active levels.</p>
+
+    <h2 id="workflow">How the Wet Lab Uses It</h2>
+    <p>The loop is deliberately short: sweep candidate designs <em>in silico</em>, rank them by predicted BDNF-per-BCAN, and send only the top candidates to the bench. Wet-lab measurements — reporter curves, ELISA concentrations — flow back to refit the parameters, so the assistant gets sharper every DBTL cycle. This is the model doing practical work: fewer failed transfections, fewer wasted cell preps.</p>
+
+    <h2 id="availability">Availability</h2>
+    <p>The code is being documented for release under an <strong>OSI-approved open-source license</strong>, with the source hosted on the team's dedicated iGEM GitLab repository, so future teams can run, inspect, and extend both simulators. <em>Documentation and release packaging are in progress.</em></p>
+
+    <blockquote>The biology and equations behind both simulators live on the <a href="{{ url_for('pages', page='model') }}" style="color:inherit">Model page</a> — this page is about the tool; that one is about the science.</blockquote>
+
+  </article>
+
+  <aside class="outline">
+    <div class="outline-title">OUTLINE</div>
+    <a href="#what">What It Does</a>
+    <a href="#workflow">How the Wet Lab Uses It</a>
+    <a href="#availability">Availability</a>
+  </aside>
+</div>
+
+<div class="next-pages">
+  <div class="section-label">START BY THESE</div>
+  <div class="next-grid">
+    <a class="next-card" href="{{ url_for('pages', page='model') }}">
+      <div class="kicker">MODEL</div>
+      <h3>Predicting the Bridge</h3>
+      <p>The multi-scale science the software implements.</p>
+      <span class="arrow">→</span>
+    </a>
+    <a class="next-card" href="{{ url_for('pages', page='engineering') }}">
+      <div class="kicker">ENGINEERING</div>
+      <h3>Build · Test · Learn</h3>
+      <p>The DBTL cycles the assistant advises.</p>
+      <span class="arrow">→</span>
+    </a>
+    <a class="next-card" href="{{ url_for('pages', page='experiments') }}">
+      <div class="kicker">EXPERIMENTS</div>
+      <h3>The Protocols</h3>
+      <p>The bench work that feeds parameters back.</p>
+      <span class="arrow">→</span>
+    </a>
+  </div>
+</div>
+{% endblock %}

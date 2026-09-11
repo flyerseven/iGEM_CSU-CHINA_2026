@@ -1,0 +1,64 @@
+{% extends "layout.html" %}
+
+{% block title %}Notebook — BRIDGE · iGEM 2026{% endblock %}
+{% block signal %}connected{% endblock %}
+
+{% block page_content %}
+<header class="page-hero">
+  <span class="hero-tag">NOTEBOOK</span>
+  <h1>The season,<br><span class="grad">as it happened.</span></h1>
+  <p class="lede">A chronological record of the BRIDGE season — experiments, meetings, decisions, and dead ends, dated as they occurred and detailed enough to learn from.</p>
+</header>
+
+<div class="article-wrap">
+  <article class="article-body">
+
+    <h2 id="how">How We Log</h2>
+    <p>Every entry is dated and records the <strong>purpose</strong> of the activity, the <strong>methods</strong> used, the <strong>results</strong> obtained, and <strong>observations</strong> made along the way — including which team members took part. Experiments, protocol optimizations, data analysis, and design meetings all land here, so the reasoning behind each decision survives the season.</p>
+
+    <h2 id="phase-design">Phase 1 · Design &amp; Assembly</h2>
+    <p>Circuit architecture finalized: the <strong>a-BCAN-SynNotch</strong> receptor and the <strong>5×UAS-Luc/GFP/BDNF</strong> reporter–payload family. Design reviews, plasmid maps, and assembly notes are logged here. <em>Entries are being added as work proceeds.</em></p>
+
+    <h2 id="phase-expression">Phase 2 · Expression &amp; Activation</h2>
+    <p>Membrane-expression checks (Western blot, immunofluorescence) and BCAN-gated cleavage tests with Luc/GFP readouts — the bench life of Stages 1–2 from the <a href="{{ url_for('pages', page='experiments') }}" style="color:var(--deep-teal)">Experiments page</a>. <em>Entries are being added as work proceeds.</em></p>
+
+    <h2 id="phase-function">Phase 3 · Secretion &amp; Function</h2>
+    <p>ELISA quantification of BDNF output and injured-neuron co-culture assays — Stages 3–5 at the bench, including troubleshooting and protocol iterations. <em>Entries are being added as work proceeds.</em></p>
+
+    <blockquote>This notebook updates continuously through the season — the newest entries appear first within each phase, and every result on the <a href="{{ url_for('pages', page='results') }}" style="color:inherit">Results page</a> traces back to a dated record here.</blockquote>
+
+  </article>
+
+  <aside class="outline">
+    <div class="outline-title">OUTLINE</div>
+    <a href="#how">How We Log</a>
+    <a href="#phase-design">Phase 1 · Design &amp; Assembly</a>
+    <a href="#phase-expression">Phase 2 · Expression &amp; Activation</a>
+    <a href="#phase-function">Phase 3 · Secretion &amp; Function</a>
+  </aside>
+</div>
+
+<div class="next-pages">
+  <div class="section-label">START BY THESE</div>
+  <div class="next-grid">
+    <a class="next-card" href="{{ url_for('pages', page='experiments') }}">
+      <div class="kicker">EXPERIMENTS</div>
+      <h3>The Protocols</h3>
+      <p>The assays these records document, step by step.</p>
+      <span class="arrow">→</span>
+    </a>
+    <a class="next-card" href="{{ url_for('pages', page='results') }}">
+      <div class="kicker">RESULTS</div>
+      <h3>The Data</h3>
+      <p>What the logged experiments measured.</p>
+      <span class="arrow">→</span>
+    </a>
+    <a class="next-card" href="{{ url_for('pages', page='team') }}">
+      <div class="kicker">TEAM</div>
+      <h3>The People</h3>
+      <p>Who wrote this notebook.</p>
+      <span class="arrow">→</span>
+    </a>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,482 @@
+{% extends "layout.html" %}
+
+{% block title %}BRIDGE — iGEM 2026{% endblock %}
+{% block signal %}{% endblock %}
+
+{% block head %}
+<style>
+/* ---------- hero ---------- */
+#hero{position:relative;height:100vh;min-height:640px;display:flex;align-items:center;justify-content:center;overflow:hidden}
+#neural-canvas{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
+.hero-content{position:relative;z-index:5;text-align:center;padding:0 6vw;pointer-events:none}
+.hero-tag{
+  display:inline-block;font-size:.8rem;letter-spacing:.35em;font-weight:500;
+  color:var(--deep-teal);border:1px solid rgba(23,183,174,.35);
+  padding:.45rem 1.2rem;border-radius:99px;margin-bottom:1.6rem;
+  background:rgba(255,255,255,.55);backdrop-filter:blur(6px);
+  opacity:0;
+}
+h1.hero-title{
+  margin:0;display:flex;justify-content:center;
+}
+h1.hero-title img{
+  width:clamp(15rem,32vw,24rem);height:auto;aspect-ratio:1;display:block;
+  mix-blend-mode:multiply;
+  filter:drop-shadow(0 10px 34px rgba(45,90,127,.22));
+  opacity:0;
+  will-change:transform,opacity;
+  transition:opacity .8s ease .15s,transform .9s cubic-bezier(.65,0,.35,1);
+}
+.logo-mark{opacity:0;transition:opacity .4s ease}
+body.intro-done .hero-tag{animation:rise .9s .1s cubic-bezier(.22,1,.36,1) forwards}
+body.intro-done .hero-over{animation:rise .9s .2s cubic-bezier(.22,1,.36,1) forwards}
+body.intro-done .hero-sub{animation:rise 1s .35s cubic-bezier(.22,1,.36,1) forwards}
+body.intro-done .hero-cta{animation:rise 1s .55s cubic-bezier(.22,1,.36,1) forwards}
+body.intro-done .scroll-hint{animation:rise 1s .85s forwards}
+.hero-word{
+  font-size:clamp(3.5rem,13vw,10rem);line-height:1;font-weight:700;letter-spacing:.02em;
+  background:linear-gradient(100deg,var(--bridge-navy) 10%,var(--deep-teal) 45%,var(--aqua-cyan) 70%,var(--deep-purple));
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  opacity:0;
+}
+body.intro-done .hero-word{animation:rise 1s .25s cubic-bezier(.22,1,.36,1) forwards}
+.hero-over{
+  font-size:clamp(.78rem,1.2vw,1rem);letter-spacing:.5em;font-weight:500;
+  color:var(--info-blue);margin-bottom:.6rem;text-indent:.5em;
+  opacity:0;
+}
+.hero-sub{
+  margin-top:1.4rem;font-size:clamp(1rem,1.6vw,1.25rem);color:var(--info-blue);
+  font-weight:300;letter-spacing:.08em;
+  opacity:0;
+}
+.hero-cta{
+  margin-top:2.6rem;display:flex;gap:1.1rem;justify-content:center;pointer-events:auto;
+  opacity:0;
+}
+@keyframes rise{from{opacity:0;transform:translateY(34px)}to{opacity:1;transform:none}}
+.scroll-hint{
+  position:absolute;bottom:2.2rem;left:50%;transform:translateX(-50%);z-index:5;
+  display:flex;flex-direction:column;align-items:center;gap:.5rem;
+  color:var(--info-blue);font-size:.72rem;letter-spacing:.3em;
+  opacity:0;
+}
+.scroll-hint .wire{width:1.5px;height:44px;background:linear-gradient(var(--aqua-cyan),transparent);position:relative;overflow:hidden}
+.scroll-hint .wire::after{
+  content:'';position:absolute;top:-10px;left:0;width:100%;height:10px;
+  background:var(--signal-coral);animation:drip 1.8s infinite;
+}
+@keyframes drip{to{top:54px}}
+
+/* ---------- stats strip ---------- */
+#stats{
+  background:var(--deep-sea);color:#fff;padding:4.5rem 7vw;
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:2.5rem;
+}
+.stat{text-align:center}
+.stat .num{
+  font-size:clamp(2.4rem,4.5vw,3.6rem);font-weight:700;
+  background:linear-gradient(120deg,var(--aqua-cyan),var(--soft-lavender));
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.stat .lbl{margin-top:.4rem;color:var(--info-blue);font-size:.85rem;letter-spacing:.2em}
+
+/* ---------- background & design ---------- */
+#background{
+  background:rgba(255,255,255,.5);
+  backdrop-filter:blur(7px) saturate(1.15);
+  -webkit-backdrop-filter:blur(7px) saturate(1.15);
+  border-top:1px solid rgba(255,255,255,.65);
+  border-bottom:1px solid rgba(255,255,255,.65);
+}
+#design{background:linear-gradient(180deg,rgba(248,252,255,.6),rgba(221,242,255,.55))}
+.sec-intro{margin-top:1.2rem;color:var(--bridge-navy);line-height:1.9;font-weight:300;font-size:1.02rem;max-width:64ch}
+.why-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.6rem;margin-top:1.6rem}
+@media(max-width:800px){.why-grid{grid-template-columns:1fr}}
+.steps{display:grid;grid-template-columns:repeat(5,1fr);gap:1.1rem;margin-top:2.6rem}
+@media(max-width:1100px){.steps{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:700px){.steps{grid-template-columns:1fr}}
+.step{background:#fff;border:1px solid rgba(45,90,127,.09);border-radius:16px;padding:1.5rem 1.3rem;box-shadow:0 4px 18px rgba(35,66,86,.05)}
+.step .no{font-size:.75rem;letter-spacing:.3em;color:var(--deep-teal);font-weight:700}
+.step h4{margin:.55rem 0;font-size:1.02rem;color:var(--deep-sea)}
+.step p{font-size:.84rem;line-height:1.7;color:var(--info-blue);font-weight:300}
+.mech-figs{display:grid;grid-template-columns:1fr 1fr;gap:1.6rem;margin-top:2.8rem}
+@media(max-width:900px){.mech-figs{grid-template-columns:1fr}}
+.mech-figs figure{margin:0;background:#fff;border:1px solid rgba(45,90,127,.09);border-radius:20px;padding:1.3rem;box-shadow:0 4px 18px rgba(35,66,86,.06)}
+.mech-figs img{width:100%;height:auto;border-radius:12px;display:block}
+.mech-figs figcaption{margin-top:.9rem;font-size:.85rem;color:var(--info-blue);line-height:1.65;font-weight:300}
+.mech-figs figcaption b{color:var(--deep-sea);font-weight:500}
+.platform-note{margin-top:2.8rem;text-align:center;color:var(--bridge-navy);font-size:1.05rem;font-weight:300;line-height:1.8}
+.platform-note b{color:var(--deep-teal);font-weight:500}
+.story-grid{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center;max-width:1200px;margin:0 auto}
+@media(max-width:900px){.story-grid{grid-template-columns:1fr;gap:3rem}}
+.story-text p{margin-top:1.4rem;color:var(--bridge-navy);line-height:1.9;font-weight:300;font-size:1.02rem}
+#synapse-svg{width:100%;height:auto}
+.sv-pulse{stroke-dasharray:14 260;animation:sig-flow 3s linear infinite}
+@keyframes sig-flow{to{stroke-dashoffset:-274}}
+
+/* ---------- timeline ---------- */
+#journey{background:var(--deep-sea);color:#fff}
+#journey h2,#journey .section-label{color:#fff}
+#journey .section-label::before{background:var(--soft-lavender)}
+.tl{position:relative;margin-top:3.6rem;padding-left:2.4rem;max-width:760px}
+.tl::before{
+  content:'';position:absolute;left:8px;top:6px;bottom:6px;width:2px;
+  background:linear-gradient(var(--aqua-cyan),var(--soft-lavender),var(--signal-coral));
+}
+.tl-item{position:relative;padding:0 0 2.8rem 1.4rem}
+.tl-item::before{
+  content:'';position:absolute;left:-2.4rem;top:.35rem;width:18px;height:18px;border-radius:50%;
+  background:var(--deep-sea);border:3px solid var(--aqua-cyan);
+  transition:background .3s,box-shadow .3s;
+}
+.tl-item:hover::before{background:var(--aqua-cyan);box-shadow:0 0 16px var(--aqua-cyan)}
+.tl-item .phase{font-size:.75rem;letter-spacing:.3em;color:var(--cell-mist)}
+.tl-item h4{font-size:1.25rem;margin:.35rem 0 .5rem;color:#fff}
+.tl-item p{font-size:.9rem;color:var(--info-blue);line-height:1.7;font-weight:300;max-width:56ch}
+
+/* ---------- team cta ---------- */
+#team-cta{text-align:center;background:linear-gradient(160deg,var(--clinical-white),var(--cell-mist) 160%)}
+#team-cta h2{margin:0 auto 1.2rem}
+#team-cta p{color:var(--bridge-navy);font-weight:300;max-width:52ch;margin:1.2rem auto 2.4rem;line-height:1.9}
+.avatar-row{display:flex;justify-content:center;margin-bottom:2.6rem}
+.avatar{
+  width:58px;height:58px;border-radius:50%;border:3px solid var(--clinical-white);
+  margin-left:-14px;display:grid;place-items:center;font-weight:700;color:#fff;font-size:1.05rem;
+  transition:transform .3s cubic-bezier(.34,1.56,.64,1);
+}
+.avatar:first-child{margin-left:0}
+.avatar:hover{transform:translateY(-8px) scale(1.12);z-index:2}
+</style>
+{% endblock %}
+
+{% block page_content %}
+<!-- HERO -->
+<header id="hero">
+  <canvas id="neural-canvas"></canvas>
+  <div class="hero-content">
+    <span class="hero-tag">iGEM 2026 · SYNTHETIC BIOLOGY</span>
+    <div class="hero-over">SYN-NOTCH-BASED NEURAL REPAIR</div>
+    <h1 class="hero-title"><img src="{{ url_for('static', filename='img/LOGO.png') }}" alt="BRIDGE — CSU-China 2026"></h1>
+    <div class="hero-word" aria-hidden="true">BRIDGE</div>
+    <p class="hero-sub">BCAN-Responsive Injury-Directed Gating in Engineered T cells — rebuilding the bridge between neurons.</p>
+    <div class="hero-cta">
+      <a class="btn btn-primary" href="#background">Explore the Project</a>
+      <a class="btn btn-ghost" href="#team-cta">Meet the Team</a>
+    </div>
+  </div>
+  <div class="scroll-hint">SCROLL<span class="wire"></span></div>
+</header>
+
+<!-- STATS -->
+<section id="stats">
+  <div class="stat"><div class="num" data-target="4" data-suffix="">0</div><div class="lbl">CORE PLASMIDS</div></div>
+  <div class="stat"><div class="num" data-target="5" data-suffix="">0</div><div class="lbl">EXPERIMENT STAGES</div></div>
+  <div class="stat"><div class="num" data-target="10" data-suffix="+">0</div><div class="lbl">OFFLINE HP EVENTS</div></div>
+  <div class="stat"><div class="num" data-target="300" data-suffix="+">0</div><div class="lbl">HP PARTICIPANTS</div></div>
+</section>
+
+<!-- BACKGROUND -->
+<section id="background">
+  <div class="story-grid">
+    <div class="story-text reveal">
+      <div class="section-label">BACKGROUND · THE PROBLEM</div>
+      <h2>When the signal<br>can no longer cross.</h2>
+      <p>Every year, countless patients suffer cerebral infarction — and postoperative rehabilitation outcomes remain extremely poor. Once neurons are lost to ischemia, the brain's own repair signal can no longer cross the gap left by injury.</p>
+      <p>Why do existing therapies fall short? Because none of them answers three questions at once: how to get into the brain, where to act, and how to act only there.</p>
+    </div>
+    <div class="reveal">
+      <svg id="synapse-svg" viewBox="0 0 480 320" fill="none">
+        <path d="M20 90 C 120 60, 180 110, 215 150" stroke="#2D5A7F" stroke-width="5" stroke-linecap="round" opacity=".85"/>
+        <path d="M265 170 C 300 210, 360 250, 460 240" stroke="#2D5A7F" stroke-width="5" stroke-linecap="round" opacity=".85"/>
+        <circle cx="215" cy="150" r="10" fill="#53DBD3"/>
+        <circle cx="265" cy="170" r="10" fill="#C3B7FF"/>
+        <path class="sv-pulse" d="M215 150 C 235 158, 245 162, 265 170" stroke="#FF8A7A" stroke-width="4" stroke-linecap="round"/>
+        <text x="150" y="200" fill="#77A0BC" font-size="13" letter-spacing="3">SYNAPTIC GAP</text>
+        <text x="60" y="50" fill="#2D5A7F" font-size="13" font-weight="600">PRE-SYNAPSE</text>
+        <text x="330" y="290" fill="#2D5A7F" font-size="13" font-weight="600">POST-SYNAPSE</text>
+      </svg>
+    </div>
+  </div>
+
+  <div class="sub-label reveal">THREE WALLS OF TRADITIONAL TREATMENT</div>
+  <div class="pillars">
+    <div class="card reveal"><div class="glow"></div>
+      <div class="icon" style="background:var(--data-cyan)">🧱</div>
+      <h3>The Blood-Brain Barrier</h3><p>The BBB keeps most macromolecules and biologics out of the CNS — systemically delivered drugs simply never reach the lesion.</p>
+    </div>
+    <div class="card reveal"><div class="glow"></div>
+      <div class="icon" style="background:#FFE3DE">🎯</div>
+      <h3>Off-target Toxicity</h3><p>What does get in acts everywhere. Non-specific distribution across healthy tissue brings systemic side effects that cap the usable dose.</p>
+    </div>
+    <div class="card reveal"><div class="glow"></div>
+      <div class="icon" style="background:#E4E1FF">📍</div>
+      <h3>Pinpoint Delivery Is Hard</h3><p>Lesion-localized, on-demand release remains one of the hardest unsolved problems in CNS therapy.</p>
+    </div>
+  </div>
+
+  <div class="sub-label reveal">OUR ANSWER · A MOLECULAR ADDRESS AND A REPAIR SIGNAL</div>
+  <div class="why-grid">
+    <div class="card reveal"><div class="glow"></div>
+      <div class="icon" style="background:var(--cell-mist)">🧭</div>
+      <h3>Why BCAN?</h3><p>BCAN (Brevican) is a biomarker overexpressed in brain lesions — a molecular address for the injury. It guides engineered T cells precisely to the damaged area and tells them where to act.</p>
+    </div>
+    <div class="card reveal"><div class="glow"></div>
+      <div class="icon" style="background:#FFF3D9">🌱</div>
+      <h3>Why BDNF?</h3><p>BDNF is the brain's own repair factor. Released locally at the lesion, it rebuilds neural repair pathways and supports neuron survival — repair written in the brain's native language.</p>
+    </div>
+  </div>
+</section>
+
+<!-- DESIGN -->
+<section id="design">
+  <div class="reveal">
+    <div class="section-label">DESIGN · THE CIRCUIT</div>
+    <h2>Sense BCAN.<br>Switch on repair.</h2>
+    <p class="sec-intro">BRIDGE engineers T cells that cross the blood-brain barrier, sense lesion BCAN through a synthetic Notch (SynNotch) receptor, and release BDNF exactly where it is needed. Three modules make up the circuit:</p>
+  </div>
+
+  <div class="pillars">
+    <div class="card reveal"><div class="glow"></div>
+      <div class="icon" style="background:var(--data-cyan)">📡</div>
+      <h3>SynNotch Recognition</h3><p>An anti-BCAN scFv recognition domain sits on the engineered T cell surface. Only BCAN binding can trigger the receptor — healthy tissue stays silent.</p>
+    </div>
+    <div class="card reveal"><div class="glow"></div>
+      <div class="icon" style="background:var(--cell-mist)">🔑</div>
+      <h3>GAL4-VP64 Switch</h3><p>BCAN binding triggers S2/S3 cleavage, releasing the GAL4-VP64 transcription factor into the nucleus — the cell's injury-activated switch.</p>
+    </div>
+    <div class="card reveal"><div class="glow"></div>
+      <div class="icon" style="background:#E4E1FF">🧬</div>
+      <h3>5×UAS → BDNF Unit</h3><p>GAL4 binds the 5×UAS promoter while VP64 recruits coactivators, switching on BDNF transcription, DCV packaging, and local secretion.</p>
+    </div>
+  </div>
+
+  <div class="sub-label reveal">FROM RECOGNITION TO REPAIR — FIVE STEPS</div>
+  <div class="steps">
+    <div class="step reveal"><div class="no">STEP 01</div><h4>Recognition</h4><p>The a-BCAN scFv domain binds BCAN overexpressed at the infarct lesion.</p></div>
+    <div class="step reveal"><div class="no">STEP 02</div><h4>S2 / S3 Cleavage</h4><p>ADAM10/TACE cuts the extracellular segment (S2); γ-secretase finishes (S3), releasing GAL4-VP64.</p></div>
+    <div class="step reveal"><div class="no">STEP 03</div><h4>Transcription ON</h4><p>GAL4 docks onto 5×UAS; VP64 recruits coactivator complexes — the BDNF gene switches on.</p></div>
+    <div class="step reveal"><div class="no">STEP 04</div><h4>DCV Secretion</h4><p>BDNF is packaged into dense-core vesicles and secreted locally at the lesion site.</p></div>
+    <div class="step reveal"><div class="no">STEP 05</div><h4>Neuronal Repair</h4><p>BDNF binds TrkB receptors on injured neurons, regulating survival and repair signaling.</p></div>
+  </div>
+
+  <div class="mech-figs">
+    <figure class="reveal">
+      <img src="{{ url_for('static', filename='img/synnotch-pathway.png') }}" alt="SynNotch signal pathway: BCAN binding triggers S2/S3 cleavage, releasing VP64-Gal4 to activate 5×UAS-driven BDNF transcription">
+      <figcaption><b>The molecular switch.</b> BCAN binding drives ADAM10/TACE (S2) and γ-secretase (S3) cleavage, releasing VP64-Gal4, which binds 5×UAS and recruits coactivators to transcribe the BDNF gene.</figcaption>
+    </figure>
+    <figure class="reveal">
+      <img src="{{ url_for('static', filename='img/mechanism-overview.png') }}" alt="BRIDGE overall mechanism: engineered T cell recognizes BCAN on lesion neurons and secretes BDNF via DCV">
+      <figcaption><b>The cellular bridge.</b> The engineered T cell homes to BCAN-rich lesion tissue, activates its SynNotch circuit, and delivers BDNF to TrkB-expressing neurons.</figcaption>
+    </figure>
+  </div>
+
+  <p class="platform-note reveal">Swappable receptors and payloads make BRIDGE more than one therapy — <b>a targeted cell-therapy platform adaptable across CNS disease contexts.</b></p>
+</section>
+
+<!-- PILLARS -->
+<section id="pillars">
+  <div class="reveal">
+    <div class="section-label">RESEARCH PILLARS</div>
+    <h2>Four pillars, one bridge.</h2>
+  </div>
+  <div class="pillars">
+    <div class="card reveal"><div class="glow"></div>
+      <div class="icon" style="background:var(--data-cyan)">🧬</div>
+      <h3>Design</h3><p>An anti-BCAN scFv recognition domain, a GAL4-VP64 transcription factor, and a 5×UAS inducible BDNF expression unit: BCAN binding triggers S2/S3 cleavage, releasing the transcription factor to drive BDNF transcription and DCV secretion.</p>
+      <a class="more" href="{{ url_for('pages', page='description') }}">Project Description</a>
+    </div>
+    <div class="card reveal"><div class="glow"></div>
+      <div class="icon" style="background:var(--cell-mist)">🔬</div>
+      <h3>Wet Lab</h3><p>Four core plasmids — a-BCAN-synNotch and 5XUAS-Luc/GFP/BDNF. Membrane localization verified by WB and immunofluorescence, BDNF secretion quantified by ELISA, and neuroprotection validated in co-culture with injured neurons.</p>
+      <a class="more" href="{{ url_for('pages', page='engineering') }}">Experiments &amp; Results</a>
+    </div>
+    <div class="card reveal"><div class="glow"></div>
+      <div class="icon" style="background:#E4E1FF">📈</div>
+      <h3>Dry Lab</h3><p>Multi-scale kinetic modeling: pathway simulation spans the full recognition-to-secretion cascade, while microenvironment simulation maps BDNF diffusion — pinpointing optimal T cell dosage and therapeutic efficiency.</p>
+      <a class="more" href="{{ url_for('pages', page='model') }}">Model</a>
+    </div>
+    <div class="card reveal"><div class="glow"></div>
+      <div class="icon" style="background:#FFE3DE">🤝</div>
+      <h3>Human Practices</h3><p>10+ offline science events reaching 300+ participants, 15+ posts across WeChat and Xiaohongshu, the Kindle synthetic biology community with 80+ members, plus card decks, a picture book, and communication handbooks.</p>
+      <a class="more" href="{{ url_for('pages', page='human-practices') }}">Human Practices</a>
+    </div>
+  </div>
+</section>
+
+<!-- JOURNEY -->
+<section id="journey">
+  <div class="reveal">
+    <div class="section-label">THE JOURNEY</div>
+    <h2>From idea to bridge.</h2>
+  </div>
+  <div class="tl">
+    <div class="tl-item reveal"><div class="phase">PHASE 01</div><h4>Ideation</h4><p>Locked onto cerebral infarction neural repair, mapped the BBB and off-target pain points of traditional treatments, and committed to the BCAN targeting strategy.</p></div>
+    <div class="tl-item reveal"><div class="phase">PHASE 02</div><h4>Design &amp; Build</h4><p>Designed the SynNotch circuit and built the core plasmids — a-BCAN-synNotch and 5XUAS-Luc/GFP/BDNF — through iterative DBTL cycles.</p></div>
+    <div class="tl-item reveal"><div class="phase">PHASE 03</div><h4>Test &amp; Learn</h4><p>Membrane localization, BCAN-induced cleavage activation, BDNF secretion quantification, and neuroprotective co-culture assays — refined by multi-scale model feedback.</p></div>
+    <div class="tl-item reveal"><div class="phase">PHASE 04</div><h4>Jamboree</h4><p>Presenting BRIDGE to the world at the Giant Jamboree in Paris.</p></div>
+  </div>
+</section>
+
+<!-- TEAM CTA -->
+<section id="team-cta">
+  <div class="reveal">
+    <div class="section-label" style="justify-content:center">THE PEOPLE</div>
+    <h2>Built by the BRIDGE team.</h2>
+    <div class="avatar-row">
+      <div class="avatar" style="background:var(--bridge-navy)">B</div>
+      <div class="avatar" style="background:var(--deep-teal)">R</div>
+      <div class="avatar" style="background:var(--deep-purple)">I</div>
+      <div class="avatar" style="background:var(--signal-coral)">D</div>
+      <div class="avatar" style="background:var(--research-amber)">G</div>
+      <div class="avatar" style="background:var(--info-blue)">E</div>
+    </div>
+    <p>An interdisciplinary team bridging engineered T cells and cerebral infarction repair — from circuit design to science outreach, living up to the name BRIDGE in every detail.</p>
+    <a class="btn btn-primary" href="{{ url_for('pages', page='team') }}">Meet Us</a>
+  </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script>
+/* ===== intro: logo fades in center → flies to nav → content reveals ===== */
+(function(){
+  const heroLogo=document.querySelector('.hero-title img');
+  const navMark=document.querySelector('.logo-mark');
+  function land(){
+    navMark.style.transition='none';
+    navMark.style.opacity=1;
+    heroLogo.style.display='none';
+    document.body.classList.add('intro-done');
+  }
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches){
+    heroLogo.style.opacity=1;land();heroLogo.style.display='';return;
+  }
+  requestAnimationFrame(()=>{heroLogo.style.opacity=1;});
+  setTimeout(()=>{
+    const r1=heroLogo.getBoundingClientRect(),r2=navMark.getBoundingClientRect();
+    const s=r2.height/r1.height;
+    const dx=r2.left+r2.width/2-(r1.left+r1.width/2);
+    const dy=r2.top+r2.height/2-(r1.top+r1.height/2);
+    heroLogo.style.transform=`translate(${dx}px,${dy}px) scale(${s})`;
+    /* only the transform transition marks landing — the opacity fade-in
+       (still running) fires transitionend first and would cut the flight short */
+    heroLogo.addEventListener('transitionend',e=>{if(e.propertyName==='transform')land();});
+    setTimeout(land,1400);/* ponytail: safety net if transitionend is missed */
+  },750);
+})();
+</script>
+<script>
+/* ===== 3D brain point cloud ===== */
+/* low-poly brain OBJ fetched & parsed at runtime — same OBJ pipeline as mechanism-demo */
+(async()=>{
+const cv=document.getElementById('neural-canvas'),ctx=cv.getContext('2d');
+let W,H;
+const NCOL=['#2D5A7F','#53DBD3','#C3B7FF','#77A0BC'];
+const pts=[],edges=[],pulses=[];
+function push(x,y,z){
+  pts.push({x,y,z,
+    jx:(Math.random()-.5)*.02,jy:(Math.random()-.5)*.02,jz:(Math.random()-.5)*.02,
+    c:NCOL[Math.random()*NCOL.length|0],sx:0,sy:0,p:1,z2:0});
+  return pts.length-1;
+}
+const tris=[];
+/* OBJ parser: plain v/f mesh; centre on bbox, normalise to ±1, flip y
+   (OBJ is y-up, canvas is y-down) — identical to tools/merge_nodes.py */
+function parseBrainObj(text){
+  const verts=[],tris=[];
+  for(const ln of text.split('\n')){
+    const p=ln.trim().split(/\s+/);
+    if(p[0]==='v')verts.push([+p[1],+p[2],+p[3]]);
+    else if(p[0]==='f'){
+      const idx=p.slice(1).map(t=>parseInt(t.split('/')[0])-1);
+      for(let i=1;i<idx.length-1;i++)tris.push([idx[0],idx[i],idx[i+1]]);
+    }
+  }
+  const mn=[1e9,1e9,1e9],mx=[-1e9,-1e9,-1e9];
+  for(const v of verts)for(let i=0;i<3;i++){mn[i]=Math.min(mn[i],v[i]);mx[i]=Math.max(mx[i],v[i]);}
+  const c=[(mn[0]+mx[0])/2,(mn[1]+mx[1])/2,(mn[2]+mx[2])/2];
+  const sc=Math.max(mx[0]-mn[0],mx[1]-mn[1],mx[2]-mn[2])/2;
+  for(const v of verts){const x=v[0],y=v[1],z=v[2];v[0]=(x-c[0])/sc;v[1]=-(y-c[1])/sc;v[2]=(z-c[2])/sc;}
+  return {verts,tris};
+}
+/* real brain model: static/brain-lowpoly.obj loaded at runtime */
+let BRAIN_MESH;
+try{
+  const txt=await (await fetch("{{ url_for('static', filename='brain-lowpoly.obj') }}")).text();
+  BRAIN_MESH=parseBrainObj(txt);
+}catch(e){console.warn('brain mesh failed to load:',e);return;}
+for(const v of BRAIN_MESH.verts)push(v[0]*.9,v[1]*.9,v[2]*.9);
+for(const t of BRAIN_MESH.tris)tris.push(t);
+/* wireframe edges derived from triangles: lines match mesh exactly */
+{
+  const seen=new Set();
+  for(const t of tris)for(const pr of [[t[0],t[1]],[t[1],t[2]],[t[0],t[2]]]){
+    const u=Math.min(pr[0],pr[1]),v=Math.max(pr[0],pr[1]),key=u+'-'+v;
+    if(!seen.has(key)){seen.add(key);edges.push({a:u,b:v,key,len:0});}
+  }
+}
+/* scroll build order: edges appear in a fixed random scatter */
+for(let i=edges.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[edges[i],edges[j]]=[edges[j],edges[i]];}
+const smooth=(a,b,x)=>{const k=Math.min(1,Math.max(0,(x-a)/(b-a)));return k*k*(3-2*k);};
+function resize(){W=cv.width=cv.offsetWidth*devicePixelRatio;H=cv.height=cv.offsetHeight*devicePixelRatio;}
+resize();addEventListener('resize',resize);
+let rot=.6,rotOff=0,tilt=.35,tTilt=.35,tRotOff=0,bx=0,bs=0;
+addEventListener('pointermove',e=>{
+  tRotOff=(e.clientX/innerWidth-.5)*1.2;
+  tTilt=.35-(e.clientY/innerHeight-.5)*.7;
+});
+const F=3.6;
+function tick(){
+  ctx.clearRect(0,0,W,H);
+  const p=Math.min(1,Math.max(0,scrollY/(innerHeight*2)));
+  const m=Math.max(.06,1-p);
+  rotOff+=(tRotOff*m-rotOff)*.05;
+  tilt+=(.35+(tTilt-.35)*m-tilt)*.05;
+  const A=rot+rotOff,cA=Math.cos(A),sA=Math.sin(A),cT=Math.cos(tilt),sT=Math.sin(tilt);
+  const tS=Math.min(W,H)*(.33+.22*p),tx=W*(.5+.18*p),cy=H/2;
+  bs=bs?bs+(tS-bs)*.08:tS;bx=bx?bx+(tx-bx)*.08:tx;
+  const S=bs,cx=bx;
+  const edgeProg=smooth(.15,.5,p);
+  const wob=.022*(1-edgeProg*.65);
+  const tm=performance.now()*.001;
+  for(const n of pts){
+    const x=n.x+Math.sin(tm*.9+n.jx*400)*wob,y=n.y+Math.sin(tm*.7+n.jy*400)*wob,z=n.z+Math.sin(tm*.8+n.jz*400)*wob;
+    const x1=x*cA+z*sA,z1=-x*sA+z*cA;
+    const y1=y*cT-z1*sT,z2=y*sT+z1*cT;
+    n.p=F/(F-z2);n.sx=cx+x1*n.p*S;n.sy=cy+y1*n.p*S;n.z2=z2;n.rx=x1;n.ry=y1;
+  }
+  const eShow=edges.length*edgeProg|0;
+  for(let i=0;i<eShow;i++){
+    const e=edges[i],a=pts[e.a],b=pts[e.b],dp=(a.p+b.p)/2;
+    ctx.strokeStyle=`rgba(45,90,127,${Math.min(.3,Math.max(.05,(dp-.62)*.5))})`;
+    ctx.lineWidth=devicePixelRatio;
+    ctx.beginPath();ctx.moveTo(a.sx,a.sy);ctx.lineTo(b.sx,b.sy);ctx.stroke();
+  }
+  if(Math.random()<.08&&eShow){
+    const e=edges[Math.random()*eShow|0];
+    pulses.push({e,t:0,c:Math.random()<.5?'#53DBD3':'#FF8A7A'});
+  }
+  for(let i=pulses.length-1;i>=0;i--){
+    const p=pulses[i];p.t+=.018;
+    if(p.t>1){pulses.splice(i,1);continue;}
+    const a=pts[p.e.a],b=pts[p.e.b];
+    const x=a.sx+(b.sx-a.sx)*p.t,y=a.sy+(b.sy-a.sy)*p.t;
+    ctx.beginPath();ctx.arc(x,y,2.8*devicePixelRatio,0,7);
+    ctx.fillStyle=p.c;ctx.shadowColor=p.c;ctx.shadowBlur=14;ctx.fill();ctx.shadowBlur=0;
+  }
+  for(const n of pts){
+    if(n.h)continue;
+    ctx.beginPath();ctx.arc(n.sx,n.sy,(n.p*.9+1)*devicePixelRatio,0,7);
+    ctx.globalAlpha=Math.min(1,Math.max(.25,(n.p-.6)*1.4));
+    ctx.fillStyle=n.c;ctx.fill();ctx.globalAlpha=1;
+  }
+  requestAnimationFrame(tick);
+}
+/* ponytail: hold the brain loop until the logo intro lands — main-thread
+   triangle sorting during the flight causes dropped frames */
+if(matchMedia('(prefers-reduced-motion: reduce)').matches)tick();
+else setTimeout(tick,1700);
+})();
+</script>
+{% endblock %}

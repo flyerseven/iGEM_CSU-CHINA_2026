@@ -1,0 +1,60 @@
+{% extends "layout.html" %}
+
+{% block title %}Inclusivity — BRIDGE · iGEM 2026{% endblock %}
+{% block signal %}connected{% endblock %}
+
+{% block page_content %}
+<header class="page-hero">
+  <span class="hero-tag">INCLUSIVITY</span>
+  <h1>Science that<br><span class="grad">lets everyone in.</span></h1>
+  <p class="lede">Who gets a voice in synthetic biology? BRIDGE worked to lower every barrier we could find — of age, background, and prior knowledge.</p>
+</header>
+
+<div class="article-wrap">
+  <article class="article-body">
+
+    <h2 id="open-door">An Open Door to SynBio</h2>
+    <p><strong>Kindle</strong>, our synthetic biology interest community, has no prerequisites: anyone curious can join, online or offline. It has grown past <strong>80 members</strong> whose backgrounds span far beyond biology — proof that the barrier to entering synbio was never ability, only invitation.</p>
+
+    <h2 id="accessible-formats">Knowledge in Accessible Formats</h2>
+    <p>Scientific content fails inclusivity when it only speaks one language. We made ours in four: a <strong>picture book</strong> for the youngest readers, <strong>two card decks</strong> that teach through play, <strong>two plain-language handbooks</strong> for adults, and <strong>15+ posts</strong> on WeChat Official Account and Xiaohongshu — meeting people on the platforms they already use, in the register they already speak.</p>
+
+    <h2 id="listening">Listening Back</h2>
+    <p>Inclusion is a dialogue, not a broadcast. Across <strong>10+ offline events with 300+ participants</strong>, and through <strong>5+ public surveys</strong>, we asked what people actually understood, feared, and hoped about engineered-cell medicine — and let the answers reshape our materials. Participants spanned ages and professions deliberately: a therapy for stroke must be legible to the families stroke touches.</p>
+
+    <blockquote>A more diverse community produces more representative science. What we learned from listening feeds directly into the materials on the <a href="{{ url_for('pages', page='education') }}" style="color:inherit">Education page</a>.</blockquote>
+
+  </article>
+
+  <aside class="outline">
+    <div class="outline-title">OUTLINE</div>
+    <a href="#open-door">An Open Door to SynBio</a>
+    <a href="#accessible-formats">Knowledge in Accessible Formats</a>
+    <a href="#listening">Listening Back</a>
+  </aside>
+</div>
+
+<div class="next-pages">
+  <div class="section-label">START BY THESE</div>
+  <div class="next-grid">
+    <a class="next-card" href="{{ url_for('pages', page='education') }}">
+      <div class="kicker">EDUCATION</div>
+      <h3>Teaching the Bridge</h3>
+      <p>The events and materials built for everyone.</p>
+      <span class="arrow">→</span>
+    </a>
+    <a class="next-card" href="{{ url_for('pages', page='human-practices') }}">
+      <div class="kicker">HUMAN PRACTICES</div>
+      <h3>Beyond the Bench</h3>
+      <p>The wider engagement this work belongs to.</p>
+      <span class="arrow">→</span>
+    </a>
+    <a class="next-card" href="{{ url_for('pages', page='sustainability') }}">
+      <div class="kicker">SUSTAINABILITY</div>
+      <h3>Repair That Lasts</h3>
+      <p>Inclusion as one of the goals we measure against.</p>
+      <span class="arrow">→</span>
+    </a>
+  </div>
+</div>
+{% endblock %}

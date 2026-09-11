@@ -1,0 +1,60 @@
+{% extends "layout.html" %}
+
+{% block title %}Alternative Platform — BRIDGE · iGEM 2026{% endblock %}
+{% block signal %}connected{% endblock %}
+
+{% block page_content %}
+<header class="page-hero">
+  <span class="hero-tag">ALTERNATIVE PLATFORM</span>
+  <h1>Not every chassis<br><span class="grad">is a bacterium.</span></h1>
+  <p class="lede">BRIDGE runs on engineered human T cells — a living, migratory chassis that crosses the blood-brain barrier on its own and works exactly where it is needed.</p>
+</header>
+
+<div class="article-wrap">
+  <article class="article-body">
+
+    <h2 id="why-tcells">Why T Cells?</h2>
+    <p>Most synthetic biology runs on <em>E. coli</em>, yeast, or <em>B. subtilis</em> — none of which can reach an injured brain. T cells can. They <strong>cross the blood-brain barrier naturally</strong>, migrate toward inflammation, and are already a clinically established therapeutic modality: engineered T cell therapies exist in patients today. BRIDGE turns that migratory chassis into a delivery and repair platform for the CNS.</p>
+
+    <h2 id="modular">A Modular Therapeutic Platform</h2>
+    <p>The architecture is deliberately swappable at both ends. The <strong>SynNotch ectodomain</strong> can be re-targeted to a different lesion antigen; the <strong>5×UAS gate</strong> accepts any payload in place of BDNF. The same chassis, the same gate — a new address and a new cargo retarget the platform across CNS disease contexts without redesigning the core.</p>
+
+    <h2 id="beyond-ecoli">Beyond E. coli</h2>
+    <p>Working in mammalian cells is a deliberate platform choice, not a complication: therapeutic sensing-and-response circuits ultimately have to run in human cells to treat humans. BRIDGE demonstrates a gated therapeutic circuit — antigen in, factor out — operating in a human cell chassis, and shows how such a platform is characterized with the same rigor as any microbial one: defined parts, quantitative reporters, and stage-gated validation.</p>
+
+    <blockquote class="callout-warn">A human-cell chassis demands stricter containment thinking, not less. How BRIDGE handles safety, containment, and responsible design is documented on the <a href="{{ url_for('pages', page='safety') }}" style="color:inherit">Safety and Security page</a>.</blockquote>
+
+  </article>
+
+  <aside class="outline">
+    <div class="outline-title">OUTLINE</div>
+    <a href="#why-tcells">Why T Cells?</a>
+    <a href="#modular">A Modular Therapeutic Platform</a>
+    <a href="#beyond-ecoli">Beyond E. coli</a>
+  </aside>
+</div>
+
+<div class="next-pages">
+  <div class="section-label">START BY THESE</div>
+  <div class="next-grid">
+    <a class="next-card" href="{{ url_for('pages', page='design') }}">
+      <div class="kicker">DESIGN</div>
+      <h3>The SynNotch Circuit</h3>
+      <p>The molecular architecture running on this chassis.</p>
+      <span class="arrow">→</span>
+    </a>
+    <a class="next-card" href="{{ url_for('pages', page='safety') }}">
+      <div class="kicker">SAFETY AND SECURITY</div>
+      <h3>Working Responsibly</h3>
+      <p>Containment and governance for a human-cell platform.</p>
+      <span class="arrow">→</span>
+    </a>
+    <a class="next-card" href="{{ url_for('pages', page='implementation') }}">
+      <div class="kicker">IMPLEMENTATION</div>
+      <h3>Toward the Clinic</h3>
+      <p>How the platform becomes a therapy.</p>
+      <span class="arrow">→</span>
+    </a>
+  </div>
+</div>
+{% endblock %}

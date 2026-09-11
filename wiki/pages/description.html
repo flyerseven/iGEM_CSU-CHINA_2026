@@ -1,0 +1,87 @@
+{% extends "layout.html" %}
+
+{% block title %}Description — BRIDGE · iGEM 2026{% endblock %}
+{% block signal %}broken{% endblock %}
+
+{% block page_content %}
+<header class="page-hero">
+  <span class="hero-tag">PROJECT DESCRIPTION</span>
+  <h1>When the signal<br>can no longer <span class="grad">cross.</span></h1>
+  <p class="lede">BRIDGE engineers T cells that cross the blood-brain barrier, sense the injury marker BCAN through a SynNotch receptor, and release the brain's own repair factor BDNF exactly where neurons were lost.</p>
+</header>
+
+<div class="article-wrap">
+  <article class="article-body">
+
+    <h2 id="problem">The Problem</h2>
+    <p>Every year, countless patients suffer cerebral infarction — and postoperative rehabilitation outcomes remain extremely poor. Once neurons are lost to ischemia, the brain's own repair signal can no longer cross the gap left by injury.</p>
+    <p>Why do existing therapies fall short? Because none of them answers three questions at once: <strong>how to get into the brain, where to act, and how to act only there.</strong></p>
+
+    <div class="stat-band">
+      <div><div class="big coral" data-target="3" data-suffix="">0</div><div class="cap">WALLS OF TRADITIONAL TREATMENT</div></div>
+      <div><div class="big" data-target="1" data-suffix="">0</div><div class="cap">MOLECULAR ADDRESS — BCAN</div></div>
+      <div><div class="big teal" data-target="1" data-suffix="">0</div><div class="cap">REPAIR SIGNAL — BDNF</div></div>
+    </div>
+
+    <h3 id="wall-bbb">Wall 1 · The Blood-Brain Barrier</h3>
+    <p>The BBB keeps most macromolecules and biologics out of the CNS — systemically delivered drugs simply never reach the lesion.</p>
+
+    <h3 id="wall-offtarget">Wall 2 · Off-target Toxicity</h3>
+    <p>What does get in acts everywhere. Non-specific distribution across healthy tissue brings systemic side effects that cap the usable dose.</p>
+
+    <h3 id="wall-delivery">Wall 3 · Pinpoint Delivery Is Hard</h3>
+    <p>Lesion-localized, on-demand release remains one of the hardest unsolved problems in CNS therapy.</p>
+
+    <h2 id="inspiration">Nature's Hint</h2>
+    <p>Two facts from biology point the way through the walls. Injured brain tissue raises a molecular flag — and the brain already speaks a repair language of its own.</p>
+
+    <h3 id="why-bcan">Why BCAN?</h3>
+    <p><strong>BCAN (Brevican)</strong> is a biomarker overexpressed in brain lesions — a molecular address for the injury. It guides engineered T cells precisely to the damaged area and tells them where to act.</p>
+
+    <h3 id="why-bdnf">Why BDNF?</h3>
+    <p><strong>BDNF</strong> is the brain's own repair factor. Released locally at the lesion, it rebuilds neural repair pathways and supports neuron survival — repair written in the brain's native language.</p>
+
+    <h2 id="solution">Our Answer</h2>
+    <p>BRIDGE — <strong>BCAN-Responsive Injury-Directed Gating in Engineered T cells</strong> — combines the two into one living circuit: T cells that naturally cross the blood-brain barrier, sense lesion BCAN through a synthetic Notch receptor, and switch on BDNF release only at the injury site.</p>
+    <blockquote>The injury itself holds the key. BCAN says <em>where</em>; SynNotch says <em>when</em>; BDNF says <em>heal</em>.</blockquote>
+    <p>Read the full circuit on the <a href="{{ url_for('pages', page='design') }}" style="color:var(--deep-teal)">Design page</a>, and the build–test–learn cycles on the <a href="{{ url_for('pages', page='engineering') }}" style="color:var(--deep-teal)">Engineering page</a>.</p>
+
+  </article>
+
+  <aside class="outline">
+    <div class="outline-title">OUTLINE</div>
+    <a href="#problem">The Problem</a>
+    <a href="#wall-bbb" class="lvl-3">Wall 1 · Blood-Brain Barrier</a>
+    <a href="#wall-offtarget" class="lvl-3">Wall 2 · Off-target Toxicity</a>
+    <a href="#wall-delivery" class="lvl-3">Wall 3 · Pinpoint Delivery</a>
+    <a href="#inspiration">Nature's Hint</a>
+    <a href="#why-bcan" class="lvl-3">Why BCAN?</a>
+    <a href="#why-bdnf" class="lvl-3">Why BDNF?</a>
+    <a href="#solution">Our Answer</a>
+  </aside>
+</div>
+
+<div class="next-pages">
+  <div class="section-label">START BY THESE</div>
+  <div class="next-grid">
+    <a class="next-card" href="{{ url_for('pages', page='design') }}">
+      <div class="kicker">DESIGN</div>
+      <h3>The SynNotch Circuit</h3>
+      <p>Sense BCAN, switch on repair — three modules, five steps, one bridge.</p>
+      <span class="arrow">→</span>
+    </a>
+    <a class="next-card" href="{{ url_for('pages', page='engineering') }}">
+      <div class="kicker">ENGINEERING</div>
+      <h3>Build · Test · Learn</h3>
+      <p>Four core plasmids and the DBTL cycles that proved the circuit works.</p>
+      <span class="arrow">→</span>
+    </a>
+    <a class="next-card" href="{{ url_for('pages', page='human-practices') }}">
+      <div class="kicker">HUMAN PRACTICES</div>
+      <h3>Beyond the Bench</h3>
+      <p>How patients, clinicians, and the public shaped BRIDGE.</p>
+      <span class="arrow">→</span>
+    </a>
+  </div>
+</div>
+{% endblock %}

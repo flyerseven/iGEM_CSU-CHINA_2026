@@ -1,0 +1,70 @@
+{% extends "layout.html" %}
+
+{% block title %}Experiments — BRIDGE · iGEM 2026{% endblock %}
+{% block signal %}connected{% endblock %}
+
+{% block page_content %}
+<header class="page-hero">
+  <span class="hero-tag">EXPERIMENTS</span>
+  <h1>Every claim earns<br><span class="grad">its data.</span></h1>
+  <p class="lede">The step-by-step design of the assays that test the BRIDGE circuit — written with enough detail for other teams to replicate our work.</p>
+</header>
+
+<div class="article-wrap">
+  <article class="article-body">
+
+                    <h2 id="design-principles">How the Pipeline Is Designed</h2>
+    <p></p><figure>Five stages, each answering one question the circuit must pass before the next is worth running. The reporters (<strong>5×UAS-Luc</strong>, <strong>5×UAS-GFP</strong>) sit under the same gate as the payload (<strong>5×UAS-BDNF</strong>), so every measurement made with a reporter predicts what the therapeutic cargo would do.</figure><p></p>
+
+    <h2 id="stage-0">Stage 0 · Construct Assembly</h2>
+    <p><strong>Purpose:</strong> build the circuit before testing it. The <strong>four core plasmids</strong> — the <strong>a-BCAN-SynNotch</strong> receptor plus the <strong>5×UAS-Luc/GFP/BDNF</strong> family — are assembled and sequence-verified. Reporters and payload share one gate, so they behave as matched instruments of the same switch.</p>
+
+    <h2 id="stage-1">Stage 1 · SynNotch Membrane Expression</h2>
+    <p><strong>Question:</strong> does the receptor reach the cell surface? <strong>Assay:</strong> Western blot and immunofluorescence for SynNotch membrane localization, with untransfected and empty-vector controls. No surface receptor, no sensing — this stage gates everything downstream.</p>
+
+    <h2 id="stage-2">Stage 2 · Pathway Activation</h2>
+    <p><strong>Question:</strong> does BCAN throw the switch? Cells are exposed to BCAN and scored for <strong>S2/S3 cleavage and GAL4-VP64 release</strong>, read out through 5×UAS-Luc luminescence and 5×UAS-GFP fluorescence. No-BCAN and non-cognate-antigen conditions test that the gate stays shut without its address.</p>
+
+    <h2 id="stage-3">Stage 3 · BDNF Secretion</h2>
+    <p><strong>Question:</strong> does the gate produce the payload? BCAN-induced BDNF output is quantified by <strong>ELISA</strong>, against the reporter signals from Stage 2 — the first direct test that reporter math predicts payload behavior.</p>
+
+    <h2 id="stage-4">Stage 4 · Neuroprotective Function</h2>
+    <p><strong>Question:</strong> does the secreted BDNF actually help? Circuit-activated cells are <strong>co-cultured with injured neurons</strong>, and the neuroprotective effect of locally delivered BDNF is measured against injured-neuron-only controls.</p>
+    <blockquote>Protocols are being optimized as the season progresses — concentrations, incubation times, and cell numbers are documented here as they are finalized. Day-by-day records live on the <a href="{{ url_for('pages', page='notebook') }}" style="color:inherit;">Notebook page</a>.</blockquote>
+  </article>
+
+          <aside class="outline">
+    <div class="outline-title">OUTLINE</div>
+    <a href="#design-principles">How the Pipeline Is Designed</a>
+    <a href="#stage-0">Stage 0 · Construct Assembly</a>
+    <a href="#stage-1">Stage 1 · SynNotch Membrane Expression</a>
+    <a href="#stage-2">Stage 2 · Pathway Activation</a>
+    <a href="#stage-3">Stage 3 · BDNF Secretion</a>
+    <a href="#stage-4">Stage 4 · Neuroprotective Function</a>
+  </aside>
+</div>
+
+<div class="next-pages">
+  <div class="section-label">START BY THESE</div>
+  <div class="next-grid">
+    <a class="next-card" href="{{ url_for('pages', page='notebook') }}">
+      <div class="kicker">NOTEBOOK</div>
+      <h3>The Season, Logged</h3>
+      <p>Dated records behind every protocol on this page.</p>
+      <span class="arrow">→</span>
+    </a>
+    <a class="next-card" href="{{ url_for('pages', page='measurement') }}">
+      <div class="kicker">MEASUREMENT</div>
+      <h3>Turning Assays into Numbers</h3>
+      <p>The reporters, units, and readouts behind each stage.</p>
+      <span class="arrow">→</span>
+    </a>
+    <a class="next-card" href="{{ url_for('pages', page='engineering') }}">
+      <div class="kicker">ENGINEERING</div>
+      <h3>Build · Test · Learn</h3>
+      <p>The DBTL cycles these experiments feed.</p>
+      <span class="arrow">→</span>
+    </a>
+  </div>
+</div>
+{% endblock %}

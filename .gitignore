@@ -1,0 +1,29 @@
+# Python
+__pycache__/
+venv/
+env/
+*.pyc
+
+# Editors / OS
+.vscode
+.idea
+.DS_Store
+
+node_modules
+
+# Frozen-Flask build output (built by CI)
+public/
+
+# Local tooling / caches
+.codegraph/
+.ruff_cache/
+.cesium/
+.mcp.json
+Thumbs.db
+
+# Source material & dev references — not needed to build the wiki
+# (kept locally; too large or third-party for the iGEM repo)
+content/
+models/
+references/
+tools/Blender_mcp/

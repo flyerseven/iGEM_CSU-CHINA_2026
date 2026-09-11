@@ -1,0 +1,45 @@
+# BRIDGE mechanism palette — Kd = face color, d = alpha
+newmtl c_17B7AE_100
+Kd 0.090 0.718 0.682
+d 1.0
+
+newmtl c_2D5A7F_100
+Kd 0.176 0.353 0.498
+d 1.0
+
+newmtl c_53DBD3_100
+Kd 0.325 0.859 0.827
+d 1.0
+
+newmtl c_77A0BC_100
+Kd 0.467 0.627 0.737
+d 1.0
+
+newmtl c_7E6BC4_100
+Kd 0.494 0.420 0.769
+d 1.0
+
+newmtl c_9FB3C8_100
+Kd 0.624 0.702 0.784
+d 1.0
+
+newmtl c_B9A7E8_100
+Kd 0.725 0.655 0.910
+d 1.0
+
+newmtl c_C26A86_85
+Kd 0.761 0.416 0.525
+d 0.85
+
+newmtl c_E0A94E_100
+Kd 0.878 0.663 0.306
+d 1.0
+
+newmtl c_F3B9C8_45
+Kd 0.953 0.725 0.784
+d 0.45
+
+newmtl c_F4C76B_100
+Kd 0.957 0.780 0.420
+d 1.0
+
