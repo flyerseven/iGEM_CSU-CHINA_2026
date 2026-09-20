@@ -158,18 +158,114 @@ h2{font-size:clamp(2rem,4.4vw,3.4rem);font-weight:700;color:var(--deep-sea);line
 .card .more:hover::after{transform:translateX(5px)}
 
 /* ---------- footer ---------- */
-footer{
-  background:var(--ink);color:var(--info-blue);padding:3rem 7vw;
-  display:flex;flex-wrap:wrap;gap:2rem;justify-content:space-between;align-items:center;
-  font-size:.85rem;letter-spacing:.08em;
+.site-footer{
+  position:relative;
+  overflow:hidden;
+  padding:clamp(3.4rem,6vw,5.4rem) 7vw clamp(3rem,5vw,4.6rem);
+  color:#c0d5e3;
+  background:
+    radial-gradient(circle at 70% 25%,rgba(44,126,165,.28),transparent 42%),
+    linear-gradient(115deg,#173a51 0%,#204f6d 53%,#16516a 100%);
+  font-size:clamp(.86rem,1.15vw,1rem);
+  letter-spacing:.025em;
 }
-footer .foot-logo{color:#fff;font-weight:700;letter-spacing:.14em}
-footer a{color:var(--aqua-cyan);text-decoration:none}
-footer a:hover{text-decoration:underline}
-footer .foot-legal{
-  flex-basis:100%;margin-top:1.6rem;padding-top:1.2rem;
-  border-top:1px solid rgba(83,219,211,.15);
-  font-size:.78rem;line-height:1.8;letter-spacing:.04em;
+.site-footer::before{
+  content:'';
+  position:absolute;
+  inset:0 0 auto;
+  height:4px;
+  background:linear-gradient(90deg,var(--aqua-cyan),var(--soft-lavender) 75%,var(--signal-coral));
+}
+.footer-inner{width:min(100%,1440px);margin:0 auto}
+.footer-brand{
+  display:grid;
+  grid-template-columns:minmax(220px,1fr) minmax(0,2.15fr);
+  gap:clamp(2rem,6vw,7rem);
+  align-items:center;
+  padding-bottom:clamp(2.2rem,4vw,3.4rem);
+  border-bottom:1px solid rgba(192,213,227,.16);
+}
+.footer-logos{display:flex;align-items:center;gap:clamp(.75rem,1.2vw,1.2rem)}
+.footer-logo-card{
+  width:clamp(76px,7.8vw,104px);
+  aspect-ratio:1;
+  display:grid;
+  place-items:center;
+  padding:10px;
+  overflow:hidden;
+  background:rgba(248,252,255,.96);
+  border:1px solid rgba(255,255,255,.75);
+  border-radius:18px;
+  box-shadow:0 10px 28px rgba(5,30,46,.18),inset 0 0 0 1px rgba(45,90,127,.06);
+}
+.footer-logo-card img{display:block;width:100%;height:100%;object-fit:contain}
+.footer-identity{text-align:center;min-width:0}
+.footer-team-name{
+  color:var(--aqua-cyan);
+  background:linear-gradient(100deg,#78e3e6 0%,var(--aqua-cyan) 42%,var(--deep-teal) 100%);
+  -webkit-background-clip:text;
+  background-clip:text;
+  -webkit-text-fill-color:transparent;
+  font-size:clamp(2.5rem,5vw,4.6rem);
+  font-weight:700;
+  line-height:1;
+  letter-spacing:.095em;
+  text-shadow:0 0 28px rgba(83,219,211,.08);
+}
+.footer-tagline{
+  margin-top:1rem;
+  color:#8fb2c6;
+  font-size:clamp(.72rem,1.15vw,.98rem);
+  letter-spacing:.18em;
+  line-height:1.7;
+}
+.footer-details{
+  display:grid;
+  grid-template-columns:minmax(190px,1fr) minmax(190px,1fr) minmax(340px,2.25fr);
+  gap:clamp(2rem,6vw,6.5rem);
+  padding-top:clamp(2rem,3.7vw,3.2rem);
+}
+.footer-block{min-width:0;padding:0;position:static}
+.footer-block h2{
+  margin:0 0 1rem;
+  color:var(--aqua-cyan);
+  font-size:.82rem;
+  font-weight:700;
+  line-height:1;
+  letter-spacing:.25em;
+  text-transform:uppercase;
+}
+.footer-block address,.footer-block p{
+  margin:0;
+  color:#c0d5e3;
+  font-style:normal;
+  font-weight:300;
+  line-height:1.85;
+}
+.footer-block p+p{margin-top:.1rem}
+.site-footer a{
+  color:var(--aqua-cyan);
+  text-decoration:none;
+  background-image:linear-gradient(currentColor,currentColor);
+  background-repeat:no-repeat;
+  background-position:0 100%;
+  background-size:100% 1px;
+  transition:color .25s,background-size .25s;
+}
+.site-footer a:hover,.site-footer a:focus-visible{color:#8bf0e9;background-size:0 1px}
+.site-footer a:focus-visible{outline:2px solid var(--aqua-cyan);outline-offset:4px;border-radius:2px}
+@media(max-width:860px){
+  .footer-brand{grid-template-columns:1fr;gap:2rem}
+  .footer-logos{justify-content:center}
+  .footer-details{grid-template-columns:repeat(2,minmax(0,1fr));gap:2.4rem}
+  .footer-license{grid-column:1/-1}
+}
+@media(max-width:560px){
+  .site-footer{padding-inline:8vw}
+  .footer-team-name{font-size:clamp(2rem,11vw,3.2rem);letter-spacing:.06em}
+  .footer-tagline{letter-spacing:.11em}
+  .footer-details{grid-template-columns:1fr}
+  .footer-license{grid-column:auto}
 }
 
 /* ============================================================
