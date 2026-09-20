@@ -33,7 +33,6 @@ BRIDGE team wiki for iGEM 2026 — "BCAN-Responsive Injury-Directed Gating in En
         |__ bridge.js         -> scroll signal line, cursor glow, reveal, scroll-spy, counters
         |__ brain-mesh.js     -> const BRAIN_MESH = {verts, tris, hidden} (home hero only)
         |__ fonts.css + fonts/-> self-hosted woff2 (dev copy of fonts; see asset rules below)
-        |__ img/              -> images (dev copies; see asset rules below)
         |__ mechanism-meshes/ -> OBJ meshes fetched by mechanism-demo.html
     |__ wiki/
         |__ layout.html       -> base template: head, signal-line, cursor-glow, menu/footer includes, bridge.js

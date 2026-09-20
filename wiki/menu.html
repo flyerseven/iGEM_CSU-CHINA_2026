@@ -1,6 +1,6 @@
 {% set p = request.path.strip('/') %}
 <nav id="nav">
-  <a class="logo" href="{{ url_for('home') }}"><img class="logo-mark" src="{{ url_for('static', filename='img/LOGO.png') }}" alt="">BRIDGE</a>
+  <a class="logo" href="{{ url_for('home') }}"><img class="logo-mark" src="https://static.igem.wiki/teams/6117/wiki/projectlogo.avif" alt="">BRIDGE</a>
   <ul class="nav-links">
     <li class="nav-dropdown">
       <a class="dropdown-toggle{{ ' active' if p in ['description','design','engineering','results','parts','contribution','implementation'] }}" href="{{ url_for('pages', page='description') }}">Project</a>

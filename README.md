@@ -15,11 +15,8 @@ videos **must** be embedded from [iGEM Video Universe](https://video.igem.org).
 **Everything the wiki loads must be served from iGEM infrastructure** — no
 external or third-party CDNs.
 
-> Dev note: while the site is under construction, images live in
-> `static/img/` and the self-hosted webfonts in `static/fonts/` so the wiki
-> builds and previews offline. **Before the final submission, upload them via
-> the uploads tool and swap the URLs to `static.igem.wiki`.** No Google Fonts
-> or other CDN links remain in the codebase.
+Images are served from `static.igem.wiki`; the self-hosted development webfonts
+remain in `static/fonts/`. No Google Fonts or third-party CDN links are used.
 
 For up-to-date requirements, resources, help and guidance, visit
 [teams.igem.org/go/deliverables/wiki](https://teams.igem.org/go/deliverables/wiki).
@@ -54,7 +51,6 @@ change other files.
     |__ static/               -> static assets (CSS and JavaScript files only)
         |__ fonts.css         -> @font-face rules for the self-hosted fonts
         |__ fonts/            -> woff2 files (dev copy; move to static.igem.wiki)
-        |__ img/              -> images (dev copy; move to static.igem.wiki)
         |__ mechanism-meshes/ -> OBJ meshes loaded by mechanism-demo.html
     |__ wiki/                 -> Main directory for the pages and layouts
         |__ footer.html       -> Footer that will appear in all the pages
